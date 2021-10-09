@@ -1,4 +1,4 @@
-# blockchain-developer-bootcamp-final-project (LVES)
+# LVES.io
 Final project for Consensys Bootcamp 2021
 
 ## Description
@@ -6,6 +6,16 @@ Lves lets you journal about life’s most important events and record the inner 
 
 
 ## Example Workflow
-1) User comes to lves.io and signups in which they will connect their wallet, which will craete an association with their public key and the their "Journal" storage.
+1) User comes to lves.io and signups in which they will connect their wallet, which will create an association with their public key and the their "Journal" storage.
 2) User will then have a view to visualize their posts or add a new one.
 3) Upon saving their post this will store encrypted data permanently on the blockchin to have access to forever.
+
+
+## Local Development
+* Install the root dependencies of the project (run the following commond in the root of the project) `npm i`
+* Install client dependencies `cd client && npm i`
+* Start the truffle development console `npx truffle develop`
+* (From within the truffle dev cli) run `compile`
+* (From within the truffle dev cli) run `migrate`
+* Start the client. Open a new tab in your terminal, navigate to this project then from within the `client/` directory run `npm run start`
+* In your browser, navigate to `http://localhost:7777` where you should see the app running

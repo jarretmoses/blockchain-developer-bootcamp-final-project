@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
 import "truffle/Assert.sol";
@@ -15,5 +16,4 @@ contract TestSimpleStorage {
 
     Assert.equal(simpleStorage.get(), expected, "It should store the value 89.");
   }
-
 }

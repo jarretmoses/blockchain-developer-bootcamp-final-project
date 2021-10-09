@@ -1,0 +1,26 @@
+{
+  "name": "lves-io",
+  "version": "1.0.0",
+  "description": "Final project for Consensys Bootcamp 2021",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project.git"
+  },
+  "keywords": [],
+  "author": "Jarret Moses (jarret.moses@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "4.3.2"
+  }
+}

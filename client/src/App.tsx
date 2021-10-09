@@ -8,10 +8,20 @@ import { Contract } from 'web3-eth-contract';
 function App() {
   const [accounts, setAccounts] = useState<string[]>([]);
   const [contract, setContract] = useState<Contract>();
+  const [contractResult, setContractResult] = useState();
 
+  const testContract = async () => {
+    await contract!.methods.set(Math.round(Math.random() * 100)).send({ from: accounts[0] });
+
+    // Get the value from the contract to prove it worked.
+    const response = await contract!.methods.get().call();
+
+    setContractResult(response);
+  };
 
   useEffect(() => {
     const web3 = getWeb3();
+
 
     const setupAccounts = async () => {
       const accounts = await web3.eth.getAccounts();
@@ -35,18 +45,20 @@ function App() {
     setupInstance();
   }, []);
 
+  useEffect(() => {
+    if (contract) {
+      testContract();
+    }
+  }, [contract])
+
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Ethereum Accounts</h1>
-        <p>{accounts.length ? (
-          accounts.map((account) => (
-            <span key={account} style={{display: 'block'}}>{account}</span>
-          ))
-        ) : 'Loading Accounts...'}</p>
-
-        <h1>Contract</h1>
+        <h4>Contract</h4>
         <p>{contract ? contract.options.address : 'Loading Contract...' }</p>
+
+        <h4>Contract Result</h4>
+        <p>{contractResult ? contractResult : 'Loading Contract Result...' }</p>
       </header>
     </div>
   );

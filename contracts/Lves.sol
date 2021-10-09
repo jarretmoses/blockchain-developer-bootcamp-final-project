@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
-contract Lves {
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Lves is Ownable {
   struct Entry {
     string created;
     string text;
-    bool isActive;
   }
 
   struct User {
@@ -13,15 +14,7 @@ contract Lves {
     bool isActive;
   }
 
-  address owner = msg.sender;
-
   mapping(address => User) users;
-
-  // TODO: use OpenZeppeling Ownerable.sol
-  modifier isOwner() {
-    require(msg.sender == owner, "Only the contract owner can perform this action");
-    _;
-  }
 
   modifier isActiveUser() {
     require(users[msg.sender].isActive == true, "User must be active");
@@ -32,9 +25,9 @@ contract Lves {
   event LogUserRemoved(address userAddress);
   event LogEntryAdded(address userAddress, string text);
 
-  function addUser(address walletAddress) public isOwner {}
+  function addUser(address walletAddress) public onlyOwner {}
 
-  function removeUser(address walletAddress) public isOwner {}
+  function removeUser(address walletAddress) public onlyOwner {}
 
   function addEntry(address walletAddress, string memory text) public isActiveUser {}
 }

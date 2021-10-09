@@ -1,3 +1,9 @@
 import Web3 from 'web3';
-// TODO: Better fallback?
-export const getWeb3 = () => new Web3(Web3.givenProvider || 'ws://localhost:8545');
+
+export const getWeb3 = () => {
+  const provider = process.env.NODE_ENV === 'production'
+    ? Web3.givenProvider
+    : 'ws://localhost:7545';
+
+    return new Web3(provider);
+}
