@@ -6,6 +6,7 @@ import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+import "@nomiclabs/hardhat-ethers";
 
 dotenv.config();
 
@@ -23,7 +24,9 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 // Go to https://hardhat.org/config/ to learn more
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.9",
+  solidity: {
+    version: "0.8.4",
+  },
   networks: {
     ropsten: {
       url: process.env.ROPSTEN_URL || "",

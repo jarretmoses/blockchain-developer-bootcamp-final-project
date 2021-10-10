@@ -1,9 +1,10 @@
-import './App.css';
-
 import { useEffect, useState } from 'react';
 import { Contract } from 'web3-eth-contract'; // eslint-disable-line import/no-extraneous-dependencies
 import { getWeb3 } from './utils/get-web3';
-import SimpleStorageContract from './contracts/SimpleStorage.json';
+import ethers from 'ethers';
+
+import './App.css';
+
 
 function App() {
   const [accounts, setAccounts] = useState<string[]>([]);
@@ -28,16 +29,17 @@ function App() {
     };
 
     const setupInstance = async () => {
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = (SimpleStorageContract as AbiJson.Abi).networks[networkId];
-      const instance = new web3.eth.Contract(
-        // @ts-expect-error Need to find typings
-        SimpleStorageContract.abi,
-        deployedNetwork && deployedNetwork.address,
-      );
+      const signers = new ethers.Contract('SimpleStorage');
+      // // Get the contract instance.
+      // const networkId = await web3.eth.net.getId();
+      // const deployedNetwork = (SimpleStorageContract as AbiJson.Abi).networks[networkId];
+      // const instance = new web3.eth.Contract(
+      //   // @ts-expect-error Need to find typings
+      //   SimpleStorageContract.abi,
+      //   deployedNetwork && deployedNetwork.address,
+      // );
 
-      setContract(instance);
+      // setContract(instance);
     };
 
     setupAccounts();

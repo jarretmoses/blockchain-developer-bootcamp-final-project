@@ -1,4 +1,10 @@
 {
+  "name": "blockchain-developer-bootcamp-final-project",
+  "version": "1.0.0",
+  "description": "Consensys final project",
+  "scripts": {
+    "compile": "rm -rf client/contracts && npx hardhat compile && cp -R artifacts/contracts client"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "2.0.2",
     "@nomiclabs/hardhat-etherscan": "2.1.6",
@@ -23,6 +29,7 @@
     "ethers": "5.4.7",
     "hardhat": "2.6.5",
     "hardhat-gas-reporter": "1.0.4",
+    "mocha": "7.2.0",
     "prettier": "2.4.1",
     "prettier-plugin-solidity": "1.0.0-beta.13",
     "solhint": "3.3.6",
@@ -30,5 +37,16 @@
     "ts-node": "10.2.1",
     "typechain": "5.1.2",
     "typescript": "4.4.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project#readme"
 }
