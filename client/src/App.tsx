@@ -1,9 +1,9 @@
 import './App.css';
 
-import { getWeb3 } from './utils/get-web3';
 import { useEffect, useState } from 'react';
+import { Contract } from 'web3-eth-contract'; // eslint-disable-line import/no-extraneous-dependencies
+import { getWeb3 } from './utils/get-web3';
 import SimpleStorageContract from './contracts/SimpleStorage.json';
-import { Contract } from 'web3-eth-contract';
 
 function App() {
   const [accounts, setAccounts] = useState<string[]>([]);
@@ -22,10 +22,9 @@ function App() {
   useEffect(() => {
     const web3 = getWeb3();
 
-
     const setupAccounts = async () => {
-      const accounts = await web3.eth.getAccounts();
-      setAccounts(accounts);
+      const activeAccounts = await web3.eth.getAccounts();
+      setAccounts(activeAccounts);
     };
 
     const setupInstance = async () => {
@@ -39,7 +38,7 @@ function App() {
       );
 
       setContract(instance);
-    }
+    };
 
     setupAccounts();
     setupInstance();
@@ -49,16 +48,16 @@ function App() {
     if (contract) {
       testContract();
     }
-  }, [contract])
+  }, [contract]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className='App'>
+      <header className='App-header'>
         <h4>Contract</h4>
         <p>{contract ? contract.options.address : 'Loading Contract...' }</p>
 
         <h4>Contract Result</h4>
-        <p>{contractResult ? contractResult : 'Loading Contract Result...' }</p>
+        <p>{contractResult || 'Loading Contract Result...' }</p>
       </header>
     </div>
   );

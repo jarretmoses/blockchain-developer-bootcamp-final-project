@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // TODO: Get better types for abi
 declare namespace AbiJson {
   interface AbiInput {
