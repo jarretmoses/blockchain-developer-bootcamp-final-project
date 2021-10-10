@@ -5,5 +5,5 @@ export const getWeb3 = () => {
     ? Web3.givenProvider
     : 'ws://localhost:7545';
 
-    return new Web3(provider);
-}
+  return new Web3(provider);
+};
