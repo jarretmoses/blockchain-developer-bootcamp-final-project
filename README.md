@@ -16,5 +16,5 @@ Lves lets you journal about life’s most important events and record the inner 
 * Install client dependencies `cd client && npm i`
 * Start the truffle development console `npx hardhat node`
 * Compile and deploy contracts `npm run compile:dev`
-* Start the client. Open a new tab in your terminal, navigate to this project then from within the `client/` directory run `npm run start`
+* Start the client. Open a new tab in your terminal, navigate to this project then from within the `client/` directory run `npm run dev`
 * In your browser, navigate to `http://localhost:7777` where you should see the app running

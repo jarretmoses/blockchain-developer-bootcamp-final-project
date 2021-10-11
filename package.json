@@ -4,9 +4,7 @@
   "description": "Consensys final project",
   "scripts": {
     "setup-client-contracts": "cp -R ./artifacts/contracts ./client/src && cp -R ./typechain ./client/src",
-    "setup-client-contracts2": "cp -R ./artifacts/contracts ./client2/src && cp -R ./typechain ./client2/src",
     "deploy:dev": "npx hardhat run --network localhost scripts/deploy.ts && npm run setup-client-contracts",
-    "deploy:dev2": "npx hardhat run --network localhost scripts/deploy.ts && npm run setup-client-contracts2",
     "dev": "npx hardhat run --network localhost scripts/deploy.ts"
   },
   "devDependencies": {

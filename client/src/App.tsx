@@ -5,6 +5,12 @@ import { ethers } from 'ethers';
 import { getProvider } from './utils/get-provider';
 import { SimpleStorage, SimpleStorage__factory } from './typechain';
 
+const requestWallet = async () => {
+  // @ts-expect-error
+  const wallet = new ethers.providers.Web3Provider(window.ethereum, 'any');
+  await wallet.send('eth_requestAccounts', []);
+}
+
 function App() {
   const [contract, setContract] = useState<SimpleStorage>();
   const [contractResult, setContractResult] = useState<number>();
@@ -14,7 +20,7 @@ function App() {
       await contract!.set(Math.round(Math.random() * 100));
 
       // Get the value from the contract to prove it worked.
-      const response = await (contract!).get();
+      const response = await contract!.get();
 
       setContractResult(response.toNumber());
     } catch (err) {
@@ -24,15 +30,19 @@ function App() {
 
   useEffect(() => {
     const setupInstance = async () => {
+      // // @ts-expect-error
+      // const wallet = new ethers.providers.Web3Provider(window.ethereum, 'any');
+      // await wallet.send('eth_requestAccounts', []);
+
       const provider = getProvider();
 
       const [from] = await provider.listAccounts();
       const signer = provider.getSigner(from);
 
       const simpleStorage = SimpleStorage__factory.connect(
-        '0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf',
+        '0x4c5859f0F772848b2D91F1D83E2Fe57935348029',
         signer
-      )
+      );
 
       setContract(simpleStorage);
     };
@@ -44,16 +54,16 @@ function App() {
     if (contract) {
       testContract();
     }
-  }, [contract]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [contract]);
 
   return (
     <div className='App'>
       <header className='App-header'>
         <h4>Contract</h4>
-        <p>{contract ? contract.address : 'Loading Contract...' }</p>
+        <p>{contract ? contract.address : 'Loading Contract...'}</p>
 
         <h4>Contract Result</h4>
-        <p>{contractResult || 'Loading Contract Result...' }</p>
+        <p>{contractResult || 'Loading Contract Result...'}</p>
       </header>
     </div>
   );
