@@ -7,8 +7,8 @@ module.exports = {
   networks: {
     develop: {
       port: 7545,
-      network_id: '*',
-      websockets: true
+      network_id: 1337,
+      websockets: true,
     }
   },
   compilers: {
