@@ -1,17 +1,17 @@
-import { expect } from "chai";
-import { ethers } from "hardhat";
+import { expect } from 'chai';
+import { ethers } from 'hardhat';
 
-describe("SimpleStorage", function () {
-  it("Should get the correct value", async function () {
-    const SimpleStorage = await ethers.getContractFactory("SimpleStorage");
+describe('SimpleStorage', () => {
+  it('Should get the correct value', async () => {
+    const SimpleStorage = await ethers.getContractFactory('SimpleStorage');
     const ss = await SimpleStorage.deploy(100);
     await ss.deployed();
 
     expect(await ss.get()).to.equal(100);
   });
 
-  it("Should set the correct value", async function () {
-    const SimpleStorage = await ethers.getContractFactory("SimpleStorage");
+  it('Should set the correct value', async () => {
+    const SimpleStorage = await ethers.getContractFactory('SimpleStorage');
     const ss = await SimpleStorage.deploy(100);
     await ss.deployed();
 
