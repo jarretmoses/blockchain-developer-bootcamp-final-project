@@ -28,6 +28,9 @@ const config: HardhatUserConfig = {
     version: "0.8.4",
   },
   networks: {
+    hardhat: {
+      chainId: 1337,
+    },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:

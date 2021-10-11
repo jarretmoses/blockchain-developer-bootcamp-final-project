@@ -1,48 +1,42 @@
-import { useEffect, useState } from 'react';
-import { Contract } from 'web3-eth-contract'; // eslint-disable-line import/no-extraneous-dependencies
-import { getWeb3 } from './utils/get-web3';
-import ethers from 'ethers';
-
 import './App.css';
 
+import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { getProvider } from './utils/get-provider';
+import { SimpleStorage, SimpleStorage__factory } from './typechain';
 
 function App() {
-  const [accounts, setAccounts] = useState<string[]>([]);
-  const [contract, setContract] = useState<Contract>();
-  const [contractResult, setContractResult] = useState();
+  const [contract, setContract] = useState<SimpleStorage>();
+  const [contractResult, setContractResult] = useState<number>();
 
   const testContract = async () => {
-    await contract!.methods.set(Math.round(Math.random() * 100)).send({ from: accounts[0] });
+    try {
+      await contract!.set(Math.round(Math.random() * 100));
 
-    // Get the value from the contract to prove it worked.
-    const response = await contract!.methods.get().call();
+      // Get the value from the contract to prove it worked.
+      const response = await (contract!).get();
 
-    setContractResult(response);
+      setContractResult(response.toNumber());
+    } catch (err) {
+      console.log('err', err);
+    }
   };
 
   useEffect(() => {
-    const web3 = getWeb3();
-
-    const setupAccounts = async () => {
-      const activeAccounts = await web3.eth.getAccounts();
-      setAccounts(activeAccounts);
-    };
-
     const setupInstance = async () => {
-      const signers = new ethers.Contract('SimpleStorage');
-      // // Get the contract instance.
-      // const networkId = await web3.eth.net.getId();
-      // const deployedNetwork = (SimpleStorageContract as AbiJson.Abi).networks[networkId];
-      // const instance = new web3.eth.Contract(
-      //   // @ts-expect-error Need to find typings
-      //   SimpleStorageContract.abi,
-      //   deployedNetwork && deployedNetwork.address,
-      // );
+      const provider = getProvider();
 
-      // setContract(instance);
+      const [from] = await provider.listAccounts();
+      const signer = provider.getSigner(from);
+
+      const simpleStorage = SimpleStorage__factory.connect(
+        '0x8f86403A4DE0BB5791fa46B8e795C547942fE4Cf',
+        signer
+      )
+
+      setContract(simpleStorage);
     };
 
-    setupAccounts();
     setupInstance();
   }, []);
 
@@ -56,7 +50,7 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <h4>Contract</h4>
-        <p>{contract ? contract.options.address : 'Loading Contract...' }</p>
+        <p>{contract ? contract.address : 'Loading Contract...' }</p>
 
         <h4>Contract Result</h4>
         <p>{contractResult || 'Loading Contract Result...' }</p>

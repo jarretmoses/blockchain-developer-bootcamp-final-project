@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Consensys final project",
   "scripts": {
-    "compile": "rm -rf client/contracts && npx hardhat compile && cp -R artifacts/contracts client"
+    "setup-client-contracts": "cp -R ./artifacts/contracts ./client/src && cp -R ./typechain ./client/src",
+    "deploy:dev": "npx hardhat run --network localhost scripts/deploy.ts && npm run setup-client-contracts",
+    "dev": "npx hardhat run --network localhost scripts/deploy.ts"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "2.0.2",
