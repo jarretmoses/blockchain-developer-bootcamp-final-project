@@ -51,5 +51,8 @@
   "bugs": {
     "url": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project/issues"
   },
-  "homepage": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project#readme"
+  "homepage": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "4.3.2"
+  }
 }

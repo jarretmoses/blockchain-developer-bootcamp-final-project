@@ -8,6 +8,7 @@ import 'hardhat-gas-reporter';
 import 'solidity-coverage';
 import '@nomiclabs/hardhat-ethers';
 
+// Tasks
 import './tasks/faucet';
 
 dotenv.config();
