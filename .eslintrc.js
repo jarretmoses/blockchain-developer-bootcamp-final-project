@@ -5,6 +5,11 @@ module.exports = {
     mocha: true,
     node: true,
   },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+  },
   plugins: ['@typescript-eslint'],
   extends: [
     'airbnb-base',
@@ -15,6 +20,9 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
+    'import/no-extraneous-dependencies': 'off',
+    'no-restricted-syntax': 'off',
+    'node/no-unpublished-import': 'off'
     'node/no-unsupported-features/es-syntax': [
       'error',
       { ignores: ['modules'] },
