@@ -9,7 +9,7 @@ import 'solidity-coverage';
 import '@nomiclabs/hardhat-ethers';
 
 // Tasks
-import './tasks/faucet';
+import './tasks/faucet.ts'; // Fix to not need .ts
 
 dotenv.config();
 
