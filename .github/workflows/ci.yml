@@ -1,0 +1,21 @@
+name: CI
+on: pull_request
+jobs:
+  started:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+  solidity-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Solidity Unit Tests
+        run: npm run test
