@@ -8,6 +8,9 @@
     "dev": "npx hardhat run --network localhost scripts/deploy.ts",
     "test": "npx hardhat test"
   },
+  "dependencies": {
+    "@openzeppelin/contracts": "4.3.2"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "2.0.2",
     "@nomiclabs/hardhat-etherscan": "2.1.6",
@@ -52,8 +55,5 @@
   "bugs": {
     "url": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project/issues"
   },
-  "homepage": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project#readme",
-  "dependencies": {
-    "@openzeppelin/contracts": "4.3.2"
-  }
+  "homepage": "https://github.com/jarretmoses/blockchain-developer-bootcamp-final-project#readme"
 }
