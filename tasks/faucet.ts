@@ -9,8 +9,8 @@ task('faucet', 'Sends ETH to an address')
   .setAction(async ({ receiver }, hre) => {
     if (hre.network.name === 'hardhat') {
       console.warn(
-        `You are running the faucet task with Hardhat network, which gets automatically created
-        and destroyed every time. Use the Hardhat option '--network localhost'"`,
+      `You are running the faucet task with Hardhat network, which gets automatically created
+        and destroyed every time. Use the Hardhat option '--network localhost'`,
       );
     }
 

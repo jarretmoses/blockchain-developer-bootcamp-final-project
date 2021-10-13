@@ -5,11 +5,6 @@ module.exports = {
     mocha: true,
     node: true,
   },
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
-  },
   plugins: ['@typescript-eslint'],
   extends: [
     'airbnb-base',

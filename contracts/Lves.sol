@@ -28,9 +28,8 @@ contract Lves is Ownable {
   function addUser() public {
     require(!users[msg.sender].isActive, "User already exists");
 
-    Entry[] memory userEntries;
-
-    users[msg.sender] = User(userEntries, true);
+    // This is weird since I cant instantiate an empty array o fstructs
+    users[msg.sender].isActive = true;
 
     emit LogUserAdded(msg.sender);
   }
@@ -45,5 +44,16 @@ contract Lves is Ownable {
     users[msg.sender].entries.push(Entry(createdAt, text));
 
     emit LogEntryAdded(msg.sender, createdAt, text);
+  }
+
+  function getUserEntryText() public view isActiveUser returns (string[] memory) {
+    User memory user = users[msg.sender];
+    string[] memory entries = new string[](user.entries.length);
+
+    for (uint i; i < entries.length; i++) {
+      entries[i] = user.entries[i].text;
+    }
+
+    return entries;
   }
 }
