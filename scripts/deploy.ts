@@ -4,6 +4,8 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 import { ethers } from 'hardhat'; // eslint-disable-line
+import path from 'path';
+import fs from 'fs/promises';
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -26,6 +28,26 @@ async function main() {
   await greeter.deployed();
   await ss.deployed();
   await lves.deployed();
+
+  // Dynamically write network / deployed address to JSON to be used in client
+  const lvesArtifactPath = path.resolve(__dirname, '../artifacts/contracts/Lves.sol/Lves.json');
+  const lvesArtifactJson = JSON.parse(String(await fs.readFile(lvesArtifactPath)));
+
+  lvesArtifactJson.networks = lvesArtifactJson.networks || {};
+  lvesArtifactJson.networks[lves.deployTransaction.chainId] = {
+    address: lves.address,
+  };
+
+  const ssArtifactPath = path.resolve(__dirname, '../artifacts/contracts/SimpleStorage.sol/SimpleStorage.json');
+  const ssArtifactJson = JSON.parse(String(await fs.readFile(ssArtifactPath)));
+
+  ssArtifactJson.networks = ssArtifactJson.networks || {};
+  ssArtifactJson.networks[ss.deployTransaction.chainId] = {
+    address: ss.address,
+  };
+
+  await fs.writeFile(lvesArtifactPath, JSON.stringify(lvesArtifactJson));
+  await fs.writeFile(ssArtifactPath, JSON.stringify(ssArtifactJson));
 
   console.log('Greeter deployed to:', greeter.address);
   console.log('SimpleStorage deployed to:', ss.address);

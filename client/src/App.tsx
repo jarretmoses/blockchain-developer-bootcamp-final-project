@@ -3,9 +3,10 @@ import { ethers } from 'ethers';
 import { getProvider } from './utils/get-provider';
 import { SimpleStorage, SimpleStorage__factory } from './typechain';
 
-import './App.css';
+import * as simpleStorageJson from './contracts/SimpleStorage.sol/SimpleStorage.json';
+type Networks = 1337;
 
-const CONTRACT_ADDRESS = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
+import './App.css';
 
 const requestWallet = async () => {
   // @ts-expect-error
@@ -38,11 +39,13 @@ function App() {
 
       const provider = getProvider();
 
+      const { chainId } = await provider.getNetwork();
       const [from] = await provider.listAccounts();
       const signer = provider.getSigner(from);
-
+      const contractAddress = simpleStorageJson.networks[chainId as Networks].address;
+      console.log('contractAddress', contractAddress);
       const simpleStorage = SimpleStorage__factory.connect(
-        CONTRACT_ADDRESS,
+        contractAddress,
         signer,
       );
 
