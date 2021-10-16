@@ -17,10 +17,9 @@ Lves lets you journal about life’s most important events and record the inner 
 
 
 ## Local Development
-* Install the root dependencies of the project (run the following commond in the root of the project) `npm i`
-* Install client dependencies `cd client && npm i`
+* Install all project dependencies by running `npm run install-all-deps`
 * Start the truffle development console `npx hardhat node`
 * Compile and deploy contracts `npm run compile:dev`
 * Grab your ETH Wallet Address from Metamask that is connected to the localhost address you you created and add some test ETH to it with `npx hardhat --network localhost faucet ${YOUR_WALLET_ADDRESS}`
-* Start the client. Open a new tab in your terminal, navigate to this project then from within the `client/` directory run `npm run dev`
+* Start the client by opening a new tab in your terminal, navigate to this project then from within the `client/` directory run `npm run dev`
 * In your browser, navigate to `http://localhost:7777` where you should see the app running
