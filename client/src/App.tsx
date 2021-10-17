@@ -1,10 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getProvider } from './utils/get-provider';
-import { SimpleStorage, SimpleStorage__factory } from './typechain';
-import { ConnectMetaMask } from './components/coonect-metamask.component';
-
-import * as simpleStorageJson from './contracts/SimpleStorage.sol/SimpleStorage.json';
-type Networks = 1337;
 
 import './App.css';
 import { useWeb3 } from './hooks/use-web3.hook';

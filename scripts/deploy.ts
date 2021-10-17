@@ -7,6 +7,8 @@ import { ethers } from 'hardhat'; // eslint-disable-line
 import path from 'path';
 import fs from 'fs/promises';
 
+const getSupportedChains = () => [1337, 3, 4];
+
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
@@ -45,6 +47,16 @@ async function main() {
   ssArtifactJson.networks[ss.deployTransaction.chainId] = {
     address: ss.address,
   };
+
+  const nonDeployedChains = getSupportedChains().filter((chain) => (
+    chain !== lves.deployTransaction.chainId
+  ));
+
+  // Set default network objects for Typescript inference
+  nonDeployedChains.forEach((chainId) => {
+    ssArtifactJson.networks[chainId] = { address: '' };
+    lvesArtifactJson.networks[chainId] = { address: '' };
+  });
 
   await fs.writeFile(lvesArtifactPath, JSON.stringify(lvesArtifactJson));
   await fs.writeFile(ssArtifactPath, JSON.stringify(ssArtifactJson));

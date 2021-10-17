@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getProvider } from '../utils/get-provider';
 import { SimpleStorage, SimpleStorage__factory } from '../typechain';
-import { ConnectMetaMask } from '../components/coonect-metamask.component';
+import { ConnectMetamask } from '../components/connect-metamask.component';
 
 import * as simpleStorageJson from '../contracts/SimpleStorage.sol/SimpleStorage.json';
-type Networks = 1337;
+type Networks = 3 | 4 | 1337;
 
 import '../App.css';
 
@@ -27,10 +27,6 @@ export const MainView = () => {
 
   useEffect(() => {
     const setupInstance = async () => {
-      // // @ts-expect-error
-      // const wallet = new ethers.providers.Web3Provider(window.ethereum, 'any');
-      // await wallet.send('eth_requestAccounts', []);
-
       const provider = getProvider();
 
       const { chainId } = await provider.getNetwork();
@@ -58,7 +54,7 @@ export const MainView = () => {
   return (
     <div className='App'>
       <header className='App-header'>
-        <ConnectMetaMask />
+        <ConnectMetamask />
 
         <h4>Contract Result</h4>
         <p>{contractResult || 'Loading Contract Result...'}</p>
