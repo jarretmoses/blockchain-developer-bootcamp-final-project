@@ -1,75 +1,68 @@
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
 import { getProvider } from './utils/get-provider';
 import { SimpleStorage, SimpleStorage__factory } from './typechain';
+import { ConnectMetaMask } from './components/coonect-metamask.component';
 
 import * as simpleStorageJson from './contracts/SimpleStorage.sol/SimpleStorage.json';
 type Networks = 1337;
 
 import './App.css';
+import { useWeb3 } from './hooks/use-web3.hook';
+import { MainView } from './views/main.view';
+import { IncorrectNetworkView } from './views/incorrect-network.view';
 
-const requestWallet = async () => {
-  // @ts-expect-error
-  const wallet = new ethers.providers.Web3Provider(window.ethereum, 'any');
-  await wallet.send('eth_requestAccounts', []);
-};
+const REQUIRED_CHAIN = Number(import.meta.env.VITE_CHAIN_ID);
+
+type LoadingState = 'loading' | 'ok' | 'incorrectChain';
 
 function App() {
-  const [contract, setContract] = useState<SimpleStorage>();
-  const [contractResult, setContractResult] = useState<number>();
-
-  const testContract = async () => {
-    try {
-      await contract!.set(Math.round(Math.random() * 100));
-
-      // Get the value from the contract to prove it worked.
-      const response = await contract!.get();
-
-      setContractResult(response.toNumber());
-    } catch (err) {
-      console.log('err', err);
-    }
-  };
+  const {
+    wallet,
+    isCorrectChain,
+    setChainId,
+    chainId,
+  } = useWeb3();
+  const [loadingState, setLoadingState] = useState<LoadingState>('loading');
+  let Content: React.ReactNode;
 
   useEffect(() => {
-    const setupInstance = async () => {
-      // // @ts-expect-error
-      // const wallet = new ethers.providers.Web3Provider(window.ethereum, 'any');
-      // await wallet.send('eth_requestAccounts', []);
+    const setApp = async () => {
+      if (!chainId) {
+        setChainId((await wallet.getNetwork()).chainId)
+      } else {
+        const isOk = isCorrectChain(REQUIRED_CHAIN);
 
-      const provider = getProvider();
+        if (isOk) {
+          setLoadingState('ok');
+        } else {
+          setLoadingState('incorrectChain');
+        }
+      }
+    }
 
-      const { chainId } = await provider.getNetwork();
-      const [from] = await provider.listAccounts();
-      const signer = provider.getSigner(from);
-      const contractAddress = simpleStorageJson.networks[chainId as Networks].address;
-      console.log('contractAddress', contractAddress);
-      const simpleStorage = SimpleStorage__factory.connect(
-        contractAddress,
-        signer,
-      );
+    setApp();
+  }, [chainId]);
 
-      setContract(simpleStorage);
+  switch(loadingState) {
+    case 'ok': {
+      Content = <MainView />;
+      break;
+    }
+    case 'incorrectChain': {
+      Content = <IncorrectNetworkView requiredChainId={REQUIRED_CHAIN} />
+      break;
     };
-
-    setupInstance();
-  }, []);
-
-  useEffect(() => {
-    if (contract) {
-      testContract();
+    case 'loading':
+    default: {
+      Content = (
+        <div>Loading...</div>
+      )
     }
-  }, [contract]);
+  }
 
   return (
     <div className='App'>
-      <header className='App-header'>
-        <h4>Contract</h4>
-        <p>{contract ? contract.address : 'Loading Contract...'}</p>
-
-        <h4>Contract Result</h4>
-        <p>{contractResult || 'Loading Contract Result...'}</p>
-      </header>
+      {Content}
     </div>
   );
 }

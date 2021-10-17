@@ -7,7 +7,8 @@
     "deploy:dev": "npx hardhat run --network localhost scripts/deploy.ts && npm run setup-client-contracts",
     "dev": "npx hardhat run --network localhost scripts/deploy.ts",
     "test": "npx hardhat test",
-    "install-all-deps": "npm i && cd ./client && npm i"
+    "install-all-deps": "npm i && cd ./client && npm i",
+    "start-client": "cd client && npm run dev"
   },
   "dependencies": {
     "@openzeppelin/contracts": "4.3.2"
