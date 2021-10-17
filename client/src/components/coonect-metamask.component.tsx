@@ -1,31 +1,31 @@
 import { Button } from 'antd';
 import { ethers } from 'ethers';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { isWalletConnected } from '../utils/is-wallet-connected';
 
-
+// TODO: Check if wallet is connected to correct network
 export const ConnectMetaMask = () => {
-  console.log('👾👾👾:::');
+  const {current: wallet} = useRef(new ethers.providers.Web3Provider(window.ethereum, 'any'));
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    // @ts-ignore
-    window.ethereum.on('accountsChanged', (accounts) => {
-      console.log('accounts', accounts);
-    });
+    const setupComponent = async () => {
+      const walletConnected = await isWalletConnected(wallet);
+
+      setShowButton(!walletConnected);
+    };
+
+    setupComponent();
   }, []);
 
-  const handleClick = async () => {
-
-    // @ts-ignore
-    const wallet = new ethers.providers.Web3Provider(window.ethereum, 'any');
-    console.log('👾👾👾:::', await isWalletConnected(wallet));
-
-    // console.log('👾👾👾:::', wallet.provider);
-    // await wallet.send('eth_requestAccounts', []);
+  const connectWallet = async () => {
+    await wallet.send('eth_requestAccounts', []);
   };
 
+  if (!showButton) return null;
+
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={connectWallet}>
       Connect Metamask
     </Button>
   )

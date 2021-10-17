@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { getProvider } from './utils/get-provider';
 import { SimpleStorage, SimpleStorage__factory } from './typechain';
+import { useWeb3React } from '@web3-react/core';
 
 import * as simpleStorageJson from './contracts/SimpleStorage.sol/SimpleStorage.json';
 type Networks = 1337;
@@ -10,12 +11,12 @@ import './App.css';
 import { ConnectMetaMask } from './components/coonect-metamask.component';
 
 const requestWallet = async () => {
-  // @ts-expect-error
   const wallet = new ethers.providers.Web3Provider(window.ethereum, 'any');
   await wallet.send('eth_requestAccounts', []);
 };
 
 function App() {
+  const { active } = useWeb3React();
   const [contract, setContract] = useState<SimpleStorage>();
   const [contractResult, setContractResult] = useState<number>();
 
