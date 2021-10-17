@@ -7,6 +7,7 @@ import * as simpleStorageJson from './contracts/SimpleStorage.sol/SimpleStorage.
 type Networks = 1337;
 
 import './App.css';
+import { ConnectMetaMask } from './components/coonect-metamask.component';
 
 const requestWallet = async () => {
   // @ts-expect-error
@@ -43,7 +44,7 @@ function App() {
       const [from] = await provider.listAccounts();
       const signer = provider.getSigner(from);
       const contractAddress = simpleStorageJson.networks[chainId as Networks].address;
-      console.log('contractAddress', contractAddress);
+
       const simpleStorage = SimpleStorage__factory.connect(
         contractAddress,
         signer,
@@ -64,8 +65,7 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <h4>Contract</h4>
-        <p>{contract ? contract.address : 'Loading Contract...'}</p>
+        <ConnectMetaMask />
 
         <h4>Contract Result</h4>
         <p>{contractResult || 'Loading Contract Result...'}</p>
