@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import './App.css';
-import { useWeb3 } from './hooks/use-web3.hook';
+
 import { MainView } from './views/main.view';
 import { IncorrectNetworkView } from './views/incorrect-network.view';
+import { useWeb3 } from './context/web3.context';
 
 const REQUIRED_CHAIN = Number(import.meta.env.VITE_CHAIN_ID);
 
@@ -22,9 +23,9 @@ function App() {
   useEffect(() => {
     const setApp = async () => {
       if (!chainId) {
-        setChainId((await wallet.getNetwork()).chainId)
+        setChainId((await wallet!.getNetwork()).chainId)
       } else {
-        const isOk = isCorrectChain(REQUIRED_CHAIN);
+        const isOk = isCorrectChain!(REQUIRED_CHAIN);
 
         if (isOk) {
           setLoadingState('ok');

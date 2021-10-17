@@ -1,8 +1,8 @@
 import { Button, } from 'antd';
 import { useEffect, useRef, useState } from 'react';
-import { useWeb3 } from '../hooks/use-web3.hook';
 import { getActiveAccount } from '../utils/get-active-account';
 import metamaskIcon from '../assets/metamask-fox.svg';
+import { useWeb3 } from '../context/web3.context';
 
 export const ConnectMetamask = () => {
   const {
@@ -26,7 +26,7 @@ export const ConnectMetamask = () => {
   const connectWallet = async () => {
 
     try {
-      const [account] = await wallet.send('eth_requestAccounts', []);
+      const [account] = await wallet!.send('eth_requestAccounts', []);
       setActiveAccount(account);
       // TODO: here is where you can check if the account is stored on the smart contract
     } catch {

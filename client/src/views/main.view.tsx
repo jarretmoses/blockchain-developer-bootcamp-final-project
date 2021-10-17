@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getProvider } from '../utils/get-provider';
 import { SimpleStorage, SimpleStorage__factory } from '../typechain';
 import { ConnectMetamask } from '../components/connect-metamask.component';
@@ -7,10 +7,16 @@ import * as simpleStorageJson from '../contracts/SimpleStorage.sol/SimpleStorage
 type Networks = 3 | 4 | 1337;
 
 import '../App.css';
+import { LvesTextEditor, TextEditorApi } from '../components/text-editor.component';
 
 export const MainView = () => {
+  const ref = useRef<TextEditorApi>();
   const [contract, setContract] = useState<SimpleStorage>();
   const [contractResult, setContractResult] = useState<number>();
+  const handleSubmit = (entry: string) => {
+    console.log('👾👾👾:::', entry);
+    ref.current?.clear();
+  };
 
   const testContract = async () => {
     try {
@@ -55,6 +61,10 @@ export const MainView = () => {
     <div className='App'>
       <header className='App-header'>
         <ConnectMetamask />
+        <LvesTextEditor
+          onSubmit={handleSubmit}
+          ref={ref}
+        />
 
         <h4>Contract Result</h4>
         <p>{contractResult || 'Loading Contract Result...'}</p>
