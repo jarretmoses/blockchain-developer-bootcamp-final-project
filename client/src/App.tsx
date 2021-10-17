@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import './App.css';
 
-import { MainView } from './views/main.view';
+import { LvesView } from './views/lves.view';
 import { IncorrectNetworkView } from './views/incorrect-network.view';
 import { useLves } from './context/lves.context';
 
@@ -40,7 +40,7 @@ function App() {
 
   switch(loadingState) {
     case 'ok': {
-      Content = <MainView />;
+      Content = <LvesView />;
       break;
     }
     case 'incorrectChain': {

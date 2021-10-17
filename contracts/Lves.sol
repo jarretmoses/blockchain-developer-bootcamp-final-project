@@ -2,6 +2,7 @@
 pragma solidity 0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "hardhat/console.sol";
 
 // TODO: Potentially add a balance to this wallet to pay for the creation of a user
 contract Lves is Ownable {
@@ -60,6 +61,8 @@ contract Lves is Ownable {
 
   function userExists() public view returns (bool) {
     User memory user = users[msg.sender];
+
+    console.log("Sender %s", msg.sender);
 
     return user.isActive;
   }

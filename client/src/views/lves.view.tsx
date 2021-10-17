@@ -12,7 +12,7 @@ import { useLves } from '../context/lves.context';
 import { notification } from 'antd';
 import { LvesAddUser } from '../components/add-user.component';
 
-export const MainView = () => {
+export const LvesView = () => {
   const {
     activeAccount,
     chainId,
