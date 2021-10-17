@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Web3Provider } from './context/web3.context';
+import { LvesProvider } from './context/lves.context';
 import './index.css'
 import App from './App'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Web3Provider>
+    <LvesProvider>
       <App />
-    </Web3Provider>
+    </LvesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

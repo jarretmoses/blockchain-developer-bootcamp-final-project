@@ -20,7 +20,7 @@ Lves lets you journal about life’s most important events and record the inner 
 * Install all project dependencies by running `npm run install-all-deps`
 * Add a `.env.local` file to the `/client` directory and add the following `VITE_CHAIN_ID=1337`
 * Start the Hardhat development console `npx hardhat node`
-* Compile and deploy contracts by opening a new tab in your terminal and from within the root directory running `npm run compile:dev`
+* Compile and deploy contracts by opening a new tab in your terminal and from within the root directory running `npm run deploy:dev`
 * Grab your ETH Wallet Address from Metamask that is connected to the localhost address you you created and add some test ETH to it with `npx hardhat --network localhost faucet ${YOUR_WALLET_ADDRESS}`
 * Start the client by opening a new tab in your terminal and from within the root directory running `npm start-client`
 * In your browser, navigate to `http://localhost:7777` where you should see the app running

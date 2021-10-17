@@ -18,17 +18,10 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Greeter = await ethers.getContractFactory('Greeter');
-  const greeter = await Greeter.deploy('Hello, Hardhat!');
-
-  const SimpleStorage = await ethers.getContractFactory('SimpleStorage');
-  const ss = await SimpleStorage.deploy(34);
 
   const Lves = await ethers.getContractFactory('Lves');
   const lves = await Lves.deploy();
 
-  await greeter.deployed();
-  await ss.deployed();
   await lves.deployed();
 
   // Dynamically write network / deployed address to JSON to be used in client
@@ -40,29 +33,17 @@ async function main() {
     address: lves.address,
   };
 
-  const ssArtifactPath = path.resolve(__dirname, '../artifacts/contracts/SimpleStorage.sol/SimpleStorage.json');
-  const ssArtifactJson = JSON.parse(String(await fs.readFile(ssArtifactPath)));
-
-  ssArtifactJson.networks = ssArtifactJson.networks || {};
-  ssArtifactJson.networks[ss.deployTransaction.chainId] = {
-    address: ss.address,
-  };
-
   const nonDeployedChains = getSupportedChains().filter((chain) => (
     chain !== lves.deployTransaction.chainId
   ));
 
   // Set default network objects for Typescript inference
   nonDeployedChains.forEach((chainId) => {
-    ssArtifactJson.networks[chainId] = { address: '' };
     lvesArtifactJson.networks[chainId] = { address: '' };
   });
 
   await fs.writeFile(lvesArtifactPath, JSON.stringify(lvesArtifactJson));
-  await fs.writeFile(ssArtifactPath, JSON.stringify(ssArtifactJson));
 
-  console.log('Greeter deployed to:', greeter.address);
-  console.log('SimpleStorage deployed to:', ss.address);
   console.log('Lves deployed to:', lves.address);
 }
 

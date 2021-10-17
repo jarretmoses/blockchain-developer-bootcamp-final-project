@@ -7,26 +7,31 @@ import {
   useEffect
 } from 'react';
 
-interface Web3ContextProps {
+interface LvesContextProps {
   isCorrectChain?(requiredChainId: number): boolean;
   wallet?: ethers.providers.Web3Provider;
   chainId?: number;
   setChainId(chainId: number): void;
   setActiveAccount(account: string): void;
   activeAccount?: string;
+  userExists: boolean;
+  setUserExists(userExits: boolean): void;
 }
 
-export const Web3Context = createContext<Web3ContextProps>({
+export const LvesContext = createContext<LvesContextProps>({
   isCorrectChain: () => false,
   wallet: undefined,
   chainId: undefined,
   setChainId: () => {},
   setActiveAccount: () => {},
-  activeAccount: undefined
+  activeAccount: undefined,
+  userExists: false,
+  setUserExists: () => {}
 });
 
-const Web3Provider = (props: Record<string, any>) => {
+const LvesProvider = (props: Record<string, any>) => {
   const [activeAccount, setActiveAccount] = useState<string>();
+  const [userExists, setUserExists] = useState(false);
   const [chainId, setChainId] = useState<number>();
   const {current: wallet} = useRef(new ethers.providers.Web3Provider(window.ethereum, 'any'));
   const isCorrectChain = (requiredChainId: number) => {
@@ -41,23 +46,25 @@ const Web3Provider = (props: Record<string, any>) => {
 
 
   return (
-    <Web3Context.Provider
+    <LvesContext.Provider
       value={{
         wallet,
         isCorrectChain,
         chainId,
         setChainId,
         setActiveAccount,
-        activeAccount
+        activeAccount,
+        setUserExists,
+        userExists
       }}
       {...props}
     />
   );
 };
 
-const useWeb3 = () => useContext(Web3Context);
+const useLves = () => useContext(LvesContext);
 
 export {
-  Web3Provider,
-  useWeb3,
+  LvesProvider,
+  useLves,
 };

@@ -4,7 +4,7 @@ import './App.css';
 
 import { MainView } from './views/main.view';
 import { IncorrectNetworkView } from './views/incorrect-network.view';
-import { useWeb3 } from './context/web3.context';
+import { useLves } from './context/lves.context';
 
 const REQUIRED_CHAIN = Number(import.meta.env.VITE_CHAIN_ID);
 
@@ -16,7 +16,7 @@ function App() {
     isCorrectChain,
     setChainId,
     chainId,
-  } = useWeb3();
+  } = useLves();
   const [loadingState, setLoadingState] = useState<LoadingState>('loading');
   let Content: React.ReactNode;
 

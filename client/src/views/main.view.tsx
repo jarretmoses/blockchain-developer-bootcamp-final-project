@@ -1,73 +1,70 @@
 import { useEffect, useRef, useState } from 'react';
 import { getProvider } from '../utils/get-provider';
-import { SimpleStorage, SimpleStorage__factory } from '../typechain';
-import { ConnectMetamask } from '../components/connect-metamask.component';
+import { Lves, Lves__factory, SimpleStorage, SimpleStorage__factory } from '../typechain';
+import { LvesConnectMetamask } from '../components/connect-metamask.component';
 
-import * as simpleStorageJson from '../contracts/SimpleStorage.sol/SimpleStorage.json';
+import * as lvesJson from '../contracts/Lves.sol/Lves.json';
 type Networks = 3 | 4 | 1337;
 
 import '../App.css';
 import { LvesTextEditor, TextEditorApi } from '../components/text-editor.component';
+import { useLves } from '../context/lves.context';
+import { notification } from 'antd';
+import { LvesAddUser } from '../components/add-user.component';
 
 export const MainView = () => {
+  const {
+    activeAccount,
+    chainId,
+    wallet,
+    userExists
+  } = useLves();
   const ref = useRef<TextEditorApi>();
-  const [contract, setContract] = useState<SimpleStorage>();
+  const [contract, setContract] = useState<Lves>();
   const [contractResult, setContractResult] = useState<number>();
-  const handleSubmit = (entry: string) => {
-    console.log('👾👾👾:::', entry);
-    ref.current?.clear();
-  };
-
-  const testContract = async () => {
+  const handleSubmit = async (entry: string) => {
     try {
-      await contract!.set(Math.round(Math.random() * 100));
+      await contract!.addEntry(new Date().toISOString(), entry);
 
-      // Get the value from the contract to prove it worked.
-      const response = await contract!.get();
+      const userEntries = await contract!.getUserEntryText();
 
-      setContractResult(response.toNumber());
-    } catch (err) {
-      console.log('err', err);
+      ref.current?.clear();
+    } catch (err: any) {
+      notification.error(err.message);
     }
   };
 
   useEffect(() => {
     const setupInstance = async () => {
-      const provider = getProvider();
+      const signer = wallet!.getSigner();
+      const contractAddress = lvesJson.networks[chainId as Networks].address;
 
-      const { chainId } = await provider.getNetwork();
-      const [from] = await provider.listAccounts();
-      const signer = provider.getSigner(from);
-      const contractAddress = simpleStorageJson.networks[chainId as Networks].address;
-
-      const simpleStorage = SimpleStorage__factory.connect(
+      const lvesContract = Lves__factory.connect(
         contractAddress,
-        signer,
+        signer
       );
 
-      setContract(simpleStorage);
+      setContract(lvesContract);
     };
 
-    setupInstance();
-  }, []);
-
-  useEffect(() => {
-    if (contract) {
-      testContract();
+    if (activeAccount) {
+      setupInstance();
     }
-  }, [contract]);
+
+  }, [activeAccount]);
 
   return (
     <div className='App'>
       <header className='App-header'>
-        <ConnectMetamask />
-        <LvesTextEditor
-          onSubmit={handleSubmit}
-          ref={ref}
-        />
+        <LvesConnectMetamask />
+        <LvesAddUser />
 
-        <h4>Contract Result</h4>
-        <p>{contractResult || 'Loading Contract Result...'}</p>
+        {userExists && (
+          <LvesTextEditor
+            onSubmit={handleSubmit}
+            ref={ref}
+          />
+        )}
       </header>
     </div>
   );

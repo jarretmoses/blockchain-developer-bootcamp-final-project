@@ -2,20 +2,20 @@ import { Button, } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { getActiveAccount } from '../utils/get-active-account';
 import metamaskIcon from '../assets/metamask-fox.svg';
-import { useWeb3 } from '../context/web3.context';
+import { useLves } from '../context/lves.context';
 
-export const ConnectMetamask = () => {
+export const LvesConnectMetamask = () => {
   const {
     wallet,
     setActiveAccount,
     activeAccount
-  } = useWeb3();
+  } = useLves();
 
   const showButton = activeAccount !== undefined && !activeAccount;
 
   useEffect(() => {
     const setupComponent = async () => {
-      const account = await getActiveAccount(wallet);
+      const account = await getActiveAccount(wallet!);
       // We will treat '' as an explicit no account exits for now to avoid FOUC
       setActiveAccount(account ?? '');
     };
