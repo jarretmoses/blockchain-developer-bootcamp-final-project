@@ -10,6 +10,7 @@ export const ConnectMetaMask = () => {
 
   useEffect(() => {
     const setupComponent = async () => {
+      const networkId = await wallet.getNetwork();
       const walletConnected = await isWalletConnected(wallet);
 
       setShowButton(!walletConnected);

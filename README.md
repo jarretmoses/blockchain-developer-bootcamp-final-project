@@ -11,15 +11,16 @@ Lves lets you journal about life’s most important events and record the inner 
 3) Upon saving their post this will store encrypted data permanently on the blockchin to have access to forever.
 
 ## Prerequisites
-* Install Node.js
-* Have the Metamask browser extension installed
-* Add a `"Custom RPC"` in Metamask with `Network Name - ${Any Name}` `New RPC URL - http://127.0.0.1:8545` `Chain ID - 1337` (Note: Make sure to use `127.0.0.1` and not `localhost` as `localhost` seemingly does not resolve correctly on `Brave` and `Chrome` browsers)
+* Install Node.js [Node install](https://nodejs.org/en/download/)
+* Have the Metamask browser extension installed. [Chrome / Brave Extension](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) [Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/)
+* Add a `"Custom RPC"` in Metamask with `Network Name - Localhost 8545` `New RPC URL - http://127.0.0.1:8545` `Chain ID - 1337` (Note: Make sure to use `127.0.0.1` and not `localhost` as `localhost` seemingly does not resolve correctly on `Brave` and `Chrome` browsers)
 
 
 ## Local Development
 * Install all project dependencies by running `npm run install-all-deps`
-* Start the truffle development console `npx hardhat node`
-* Compile and deploy contracts `npm run compile:dev`
+* Add a `.env.local` file to the `/client` directory and add the following `VITE_CHAIN_ID=1337`
+* Start the Hardhat development console `npx hardhat node`
+* Compile and deploy contracts by opening a new tab in your terminal and from within the root directory running `npm run compile:dev`
 * Grab your ETH Wallet Address from Metamask that is connected to the localhost address you you created and add some test ETH to it with `npx hardhat --network localhost faucet ${YOUR_WALLET_ADDRESS}`
-* Start the client by opening a new tab in your terminal, navigate to this project then from within the `client/` directory run `npm run dev`
+* Start the client by opening a new tab in your terminal and from within the root directory running `npm start-client`
 * In your browser, navigate to `http://localhost:7777` where you should see the app running
