@@ -24,7 +24,6 @@ export const LvesConnectMetamask = () => {
   }, []);
 
   const connectWallet = async () => {
-
     try {
       const [account] = await wallet!.send('eth_requestAccounts', []);
       setActiveAccount(account);

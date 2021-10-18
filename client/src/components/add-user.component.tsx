@@ -7,7 +7,6 @@ import { Lves, Lves__factory } from '../typechain';
 
 type Networks = 3 | 4 | 1337;
 
-
 export const LvesAddUser = () => {
   const [contract, setContract] = useState<Lves>();
   const {
@@ -15,6 +14,7 @@ export const LvesAddUser = () => {
     setUserExists,
     wallet,
     chainId,
+    activeAccount
   } = useLves();
 
   const handleClick = async () => {
@@ -46,7 +46,7 @@ export const LvesAddUser = () => {
     }
 
     init();
-  }, []);
+  }, [activeAccount]);
 
   if (userExists || !contract) return null;
 
