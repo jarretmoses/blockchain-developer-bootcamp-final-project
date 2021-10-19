@@ -48,15 +48,18 @@ contract Lves is Ownable {
     emit LogEntryAdded(msg.sender, createdAt, text);
   }
 
-  function getUserEntryText() public view isActiveUser returns (string[] memory) {
+  function getUserEntries() public view isActiveUser returns (
+    string[] memory entries,
+    string[] memory createdAt
+  ) {
     User memory user = users[msg.sender];
-    string[] memory entries = new string[](user.entries.length);
+    entries = new string[](user.entries.length);
+    createdAt = new string[](user.entries.length);
 
     for (uint i; i < entries.length; i++) {
       entries[i] = user.entries[i].text;
+      createdAt[i] = user.entries[i].createdAt;
     }
-
-    return entries;
   }
 
   function userExists() public view returns (bool) {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import './App.css';
+import 'antd/dist/antd.dark.css';
 
 import { LvesView } from './views/lves.view';
 import { IncorrectNetworkView } from './views/incorrect-network.view';

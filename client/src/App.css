@@ -1,11 +1,31 @@
-.App {
-  text-align: center;
-  background-color: #282c34;
+body {
+  background-color: #141414;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  text-align: center;
+  /* 282c34 */
+  background-color: #141414;
+}
+
+.App-main {
+  display: flex;
+  width: 80vw;
+  max-height: 100vh;
+  padding-top: 4rem;
+}
+
+.lves-text-editor__input {
+  height: 100%;
+}
+
+.lves-text-editor__toolbar {
+  display: none;
+}
+
+.ant-timeline .ant-timeline-item:first-of-type {
+  position: relative;
+  top: 1px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -15,7 +35,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #141414;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
