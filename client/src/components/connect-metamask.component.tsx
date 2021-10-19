@@ -1,21 +1,21 @@
 import { Button, } from 'antd';
 import { useEffect, useRef, useState } from 'react';
-import { useWeb3 } from '../hooks/use-web3.hook';
 import { getActiveAccount } from '../utils/get-active-account';
 import metamaskIcon from '../assets/metamask-fox.svg';
+import { useLves } from '../context/lves.context';
 
-export const ConnectMetamask = () => {
+export const LvesConnectMetamask = () => {
   const {
     wallet,
     setActiveAccount,
     activeAccount
-  } = useWeb3();
+  } = useLves();
 
   const showButton = activeAccount !== undefined && !activeAccount;
 
   useEffect(() => {
     const setupComponent = async () => {
-      const account = await getActiveAccount(wallet);
+      const account = await getActiveAccount(wallet!);
       // We will treat '' as an explicit no account exits for now to avoid FOUC
       setActiveAccount(account ?? '');
     };
@@ -24,9 +24,8 @@ export const ConnectMetamask = () => {
   }, []);
 
   const connectWallet = async () => {
-
     try {
-      const [account] = await wallet.send('eth_requestAccounts', []);
+      const [account] = await wallet!.send('eth_requestAccounts', []);
       setActiveAccount(account);
       // TODO: here is where you can check if the account is stored on the smart contract
     } catch {

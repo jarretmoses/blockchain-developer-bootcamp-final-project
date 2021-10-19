@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import './App.css';
-import { useWeb3 } from './hooks/use-web3.hook';
-import { MainView } from './views/main.view';
+
+import { LvesView } from './views/lves.view';
 import { IncorrectNetworkView } from './views/incorrect-network.view';
+import { useLves } from './context/lves.context';
 
 const REQUIRED_CHAIN = Number(import.meta.env.VITE_CHAIN_ID);
 
@@ -15,16 +16,16 @@ function App() {
     isCorrectChain,
     setChainId,
     chainId,
-  } = useWeb3();
+  } = useLves();
   const [loadingState, setLoadingState] = useState<LoadingState>('loading');
   let Content: React.ReactNode;
 
   useEffect(() => {
     const setApp = async () => {
       if (!chainId) {
-        setChainId((await wallet.getNetwork()).chainId)
+        setChainId((await wallet!.getNetwork()).chainId)
       } else {
-        const isOk = isCorrectChain(REQUIRED_CHAIN);
+        const isOk = isCorrectChain!(REQUIRED_CHAIN);
 
         if (isOk) {
           setLoadingState('ok');
@@ -39,7 +40,7 @@ function App() {
 
   switch(loadingState) {
     case 'ok': {
-      Content = <MainView />;
+      Content = <LvesView />;
       break;
     }
     case 'incorrectChain': {
