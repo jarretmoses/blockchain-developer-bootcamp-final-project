@@ -28,13 +28,22 @@ const TextEditor = ({ onSubmit }: Props, ref: Ref) => {
 
 
   return (
-    <div className='lves-text-editor'>
+    <div className='lves-text-editor' style={{flexBasis: '60%'}}>
       <RichTextEditor
+        autoFocus
+        placeholder='Add entry here'
+        toolbarConfig={{
+          display: [],
+          INLINE_STYLE_BUTTONS: [],
+          BLOCK_TYPE_DROPDOWN: [],
+          BLOCK_TYPE_BUTTONS: []
+        }}
         rootStyle={{
           color: 'black',
           height: '80vh',
-          marginTop: '2rem'
         }}
+        toolbarClassName='lves-text-editor__toolbar'
+        editorClassName='lves-text-editor__input'
         value={text}
         onChange={(value) => {
           setText(value);

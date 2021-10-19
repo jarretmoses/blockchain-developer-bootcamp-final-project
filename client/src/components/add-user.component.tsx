@@ -53,7 +53,7 @@ export const LvesAddUser = () => {
   return (
     <div className="lves-add-user">
       <p>Before adding entries you will need to add yourself as a user</p>
-      <Button onClick={handleClick}>Add User</Button>
+      <Button onClick={handleClick}>Signup</Button>
     </div>
   )
 }

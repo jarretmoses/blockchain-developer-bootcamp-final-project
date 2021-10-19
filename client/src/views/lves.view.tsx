@@ -11,6 +11,7 @@ import { LvesTextEditor, TextEditorApi } from '../components/text-editor.compone
 import { useLves } from '../context/lves.context';
 import { notification } from 'antd';
 import { LvesAddUser } from '../components/add-user.component';
+import { LvesTimeline } from '../components/timeline.component';
 
 export const LvesView = () => {
   const {
@@ -21,12 +22,19 @@ export const LvesView = () => {
   } = useLves();
   const ref = useRef<TextEditorApi>();
   const [contract, setContract] = useState<Lves>();
-  const [contractResult, setContractResult] = useState<number>();
+  const [entries, setEntries] = useState<LvesContract.Entry[]>([])
+
   const handleSubmit = async (entry: string) => {
     try {
-      await contract!.addEntry(new Date().toISOString(), entry);
+      const createdAt = new Date().toISOString();
+      const entryObj: LvesContract.Entry = {
+        createdAt,
+        text: entry
+      };
 
-      const userEntries = await contract!.getUserEntryText();
+      await contract!.addEntry(entryObj.createdAt, entryObj.text);
+
+      setEntries([...entries, entryObj]);
 
       ref.current?.clear();
     } catch (err: any) {
@@ -44,6 +52,13 @@ export const LvesView = () => {
         signer
       );
 
+      const [entries, times] = await lvesContract.getUserEntries();
+      const userEntries = entries.map<LvesContract.Entry>((text, i) => ({
+        text,
+        createdAt: times[i],
+      }));
+
+      setEntries(userEntries);
       setContract(lvesContract);
     };
 
@@ -60,10 +75,13 @@ export const LvesView = () => {
         <LvesAddUser />
 
         {userExists && (
-          <LvesTextEditor
-            onSubmit={handleSubmit}
-            ref={ref}
-          />
+          <div className="App-main">
+            <LvesTimeline entries={entries} />
+            <LvesTextEditor
+              onSubmit={handleSubmit}
+              ref={ref}
+            />
+          </div>
         )}
       </header>
     </div>

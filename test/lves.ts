@@ -43,16 +43,19 @@ describe('Lves', () => {
 
       await lves.addUser();
 
-      let entries = await lves.getUserEntryText();
+      let [entries, times] = await lves.getUserEntries();
 
       expect(entries).to.have.length(0);
+      expect(times).to.have.length(0);
 
       const { blockNumber } = await lves.addEntry(entryDate, 'My first entry');
 
-      entries = await lves.getUserEntryText();
+      [entries, times] = await lves.getUserEntries();
 
       expect(entries).to.have.length(1);
+      expect(times).to.have.length(1);
       expect(entries[0]).to.equal('My first entry');
+      expect(times[0]).to.equal(entryDate);
 
       const logs = await lves.provider.getLogs({});
       const txLog = logs.find((log) => log.blockNumber === blockNumber);
