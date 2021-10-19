@@ -7,7 +7,7 @@ import {
   useEffect
 } from 'react';
 
-interface LvesContextProps {
+export interface LvesContextProps {
   isCorrectChain?(requiredChainId: number): boolean;
   wallet?: ethers.providers.Web3Provider;
   chainId?: number;
