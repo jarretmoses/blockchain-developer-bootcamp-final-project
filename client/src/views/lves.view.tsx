@@ -52,13 +52,6 @@ export const LvesView = () => {
         signer
       );
 
-      const [entries, times] = await lvesContract.getUserEntries();
-      const userEntries = entries.map<LvesContract.Entry>((text, i) => ({
-        text,
-        createdAt: times[i],
-      }));
-
-      setEntries(userEntries);
       setContract(lvesContract);
     };
 
@@ -67,6 +60,31 @@ export const LvesView = () => {
     }
 
   }, [activeAccount]);
+
+  useEffect(() => {
+    const getEntries = async () => {
+      const signer = wallet!.getSigner();
+      const contractAddress = lvesJson.networks[chainId as Networks].address;
+
+      const lvesContract = Lves__factory.connect(
+        contractAddress,
+        signer
+      );
+
+      const [entries, times] = await lvesContract.getUserEntries();
+      const userEntries = entries.map<LvesContract.Entry>((text, i) => ({
+        text,
+        createdAt: times[i],
+      }));
+
+      setEntries(userEntries);
+    };
+
+    if (userExists) {
+      getEntries();
+    }
+
+  }, [userExists])
 
   return (
     <div className='App'>

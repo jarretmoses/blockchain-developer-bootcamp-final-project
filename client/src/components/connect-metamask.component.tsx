@@ -36,12 +36,21 @@ export const LvesConnectMetamask = () => {
   if (!showButton) return null;
 
   return (
-    <Button
-      style={{display: 'flex'}}
-      onClick={connectWallet}
-      icon={<img style={{marginRight: '8px'}} src={metamaskIcon} />}
-    >
-      Connect Metamask
-    </Button>
+    <>
+      <p style={{
+        marginBottom: '4.5rem',
+        textAlign: 'center',
+        maxWidth: '50vw'
+      }}>
+        LVES uses MetaMask to pay the fee for adding your entries onto the blockchain, making them permanent.
+      </p>
+      <Button
+        style={{display: 'flex'}}
+        onClick={connectWallet}
+        icon={<img style={{marginRight: '8px', height: '100%'}} src={metamaskIcon} />}
+      >
+        Connect Metamask
+      </Button>
+    </>
   )
 }

@@ -20,6 +20,7 @@ export const LvesAddUser = () => {
   const handleClick = async () => {
     try {
       await contract!.addUser();
+
       setUserExists(true);
     } catch {
 
@@ -37,7 +38,6 @@ export const LvesAddUser = () => {
       );
 
       const userExists = await lvesContract.userExists();
-
       if (userExists) {
         setUserExists(true);
       } else {

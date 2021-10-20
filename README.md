@@ -24,3 +24,7 @@ Lves lets you journal about life’s most important events and record the inner 
 * Grab your ETH Wallet Address from Metamask that is connected to the localhost address you you created and add some test ETH to it with `npx hardhat --network localhost faucet ${YOUR_WALLET_ADDRESS}`
 * Start the client by opening a new tab in your terminal and from within the root directory running `npm start-client`
 * In your browser, navigate to `http://localhost:7777` where you should see the app running
+
+## Troubleshooting
+
+- If you are testing locally and come across an error that says something similar to `Nonce too high. Expected nonce to be 0 but got 19. Note that transactions can't be queued when automining.`, follow the steps in this link to fix. [https://dev.to/nmassi/comment/1dafo](https://dev.to/nmassi/comment/1dafo).

@@ -51,6 +51,7 @@ const TextEditor = ({ onSubmit }: Props, ref: Ref) => {
       />
 
       <Button
+        size='large'
         onClick={() => {
           const textString = text.toString('html');
           // Remove HTML tags to make sure text is entered

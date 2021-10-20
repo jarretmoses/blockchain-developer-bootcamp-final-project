@@ -19,7 +19,8 @@ export const LvesTimeline = ({ entries }: Props) => {
     <Timeline mode='right' style={{
       flexBasis: '40%',
       maxHeight: '100vh',
-      overflowY: 'scroll'
+      overflowY: 'scroll',
+      marginRight: '1rem',
     }}>
     {entries.map(({text, createdAt}) => (
       <Item
