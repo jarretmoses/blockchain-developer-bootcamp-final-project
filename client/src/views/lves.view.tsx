@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { getProvider } from '../utils/get-provider';
-import { Lves, Lves__factory, SimpleStorage, SimpleStorage__factory } from '../typechain';
+import { Lves, Lves__factory } from '../typechain';
 import { LvesConnectMetamask } from '../components/connect-metamask.component';
 
-import * as lvesJson from '../contracts/Lves.sol/Lves.json';
-type Networks = 3 | 4 | 1337;
-
-import '../App.css';
 import { LvesTextEditor, TextEditorApi } from '../components/text-editor.component';
 import { useLves } from '../context/lves.context';
 import { notification } from 'antd';
 import { LvesAddUser } from '../components/add-user.component';
 import { LvesTimeline } from '../components/timeline.component';
+import * as lvesJson from '../contracts/Lves.sol/Lves.json';
+import '../App.css';
+
+type Networks = 3 | 4 | 1337;
 
 export const LvesView = () => {
   const {
@@ -22,7 +21,7 @@ export const LvesView = () => {
   } = useLves();
   const ref = useRef<TextEditorApi>();
   const [contract, setContract] = useState<Lves>();
-  const [entries, setEntries] = useState<LvesContract.Entry[]>([])
+  const [entries, setEntries] = useState<LvesContract.Entry[]>([]);
 
   const handleSubmit = async (entry: string) => {
     try {
