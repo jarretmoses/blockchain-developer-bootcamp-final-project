@@ -27,6 +27,7 @@ contract Lves is Ownable {
   event LogUserArchived(address userAddress);
   event LogEntryAdded(address userAddress, string createdAt, string text);
   event LogEntriesRecieved(address userAddress);
+  event LogRemoveEntry(address userAddress, uint index);
 
   function addUser() public {
     require(!users[msg.sender].isActive, "User already exists");
@@ -61,6 +62,23 @@ contract Lves is Ownable {
       entries[i] = user.entries[i].text;
       createdAt[i] = user.entries[i].createdAt;
     }
+  }
+
+  function removeEntry(uint index) public isActiveUser {
+
+    require(
+      index >= 0 && index < users[msg.sender].entries.length,
+      "Entry does not exist"
+    );
+
+    for (uint i = index; i < users[msg.sender].entries.length - 1; i++) {
+      users[msg.sender].entries[i] = users[msg.sender].entries[i + 1];
+      users[msg.sender].entries[i] = users[msg.sender].entries[i + 1];
+    }
+
+    users[msg.sender].entries.pop();
+
+    emit LogRemoveEntry(msg.sender, index);
   }
 
   function userExists() public view returns (bool) {

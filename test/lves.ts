@@ -1,3 +1,5 @@
+// eslint-disable-next-line node/no-extraneous-import
+import { BigNumber } from '@ethersproject/bignumber';
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
@@ -5,9 +7,6 @@ describe('Lves', () => {
   describe('addUser()', () => {
     context('succeeds', () => {
       it('Should add a user', async () => {
-        const logAbi = ['event LogUserAdded(address userAddress)'];
-        const logInterface = new ethers.utils.Interface(logAbi);
-
         const [account] = await ethers.getSigners();
         const LvesFactory = await ethers.getContractFactory(
           'Lves',
@@ -21,7 +20,7 @@ describe('Lves', () => {
         const logs = await lves.provider.getLogs({});
         const txLog = logs.find((log) => log.blockNumber === blockNumber);
 
-        const parsed = logInterface.parseLog(txLog!);
+        const parsed = lves.interface.parseLog(txLog!);
 
         expect(parsed.name).to.equal('LogUserAdded');
 
@@ -104,10 +103,10 @@ describe('Lves', () => {
         await lves.deployed();
 
         // Add user
-        lves.addUser();
+        await lves.addUser();
 
         // Add entry
-        lves.addEntry(entryDate, entry);
+        await lves.addEntry(entryDate, entry);
 
         // Get entries
         const [entries, times] = await lves.getUserEntries();
@@ -116,6 +115,76 @@ describe('Lves', () => {
         expect(times).to.have.length(1);
         expect(entries[0]).to.equal(entry);
         expect(times[0]).to.equal(entryDate);
+      });
+    });
+  });
+
+  describe('removeEntry()', () => {
+    context('succeeds', () => {
+      it('should remove an entry', async () => {
+        const entry = 'My first entry';
+        const entryDate = new Date().toISOString();
+
+        const [account] = await ethers.getSigners();
+        const LvesFactory = await ethers.getContractFactory(
+          'Lves',
+          account,
+        );
+        const lves = await LvesFactory.deploy();
+        await lves.deployed();
+
+        // Add user
+        await lves.addUser();
+
+        // Add entry
+        await lves.addEntry(entryDate, entry);
+
+        let [entries, times] = await lves.getUserEntries();
+
+        expect(entries).to.have.length(1);
+        expect(times).to.have.length(1);
+
+        // Remove entry
+        const { blockNumber } = await lves.removeEntry(0);
+
+        // Get entries
+        [entries, times] = await lves.getUserEntries();
+
+        expect(entries).to.have.length(0);
+        expect(times).to.have.length(0);
+
+        const logs = await lves.provider.getLogs({});
+        const txLog = logs.find((log) => log.blockNumber === blockNumber);
+
+        const { args } = lves.interface.parseLog(txLog!);
+
+        expect(args[0]).to.equal(account.address);
+        expect((args[1] as BigNumber).toNumber()).to.equal(0);
+      });
+    });
+
+    context('fails', () => {
+      it('should revert when entry does not exist', async () => {
+        const entry = 'My first entry';
+        const entryDate = new Date().toISOString();
+
+        const [account] = await ethers.getSigners();
+        const LvesFactory = await ethers.getContractFactory(
+          'Lves',
+          account,
+        );
+        const lves = await LvesFactory.deploy();
+        await lves.deployed();
+
+        // Add user
+        lves.addUser();
+
+        await lves.addEntry(entryDate, entry);
+
+        // Remove entry
+        const expectedFail = lves.removeEntry(10);
+
+        await expect(expectedFail).to.revertedWith('Entry does not exist');
       });
     });
   });

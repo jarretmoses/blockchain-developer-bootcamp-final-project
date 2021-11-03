@@ -41,6 +41,17 @@ export const LvesView = () => {
     }
   };
 
+  const removeEntry = async (entry: number) => {
+    try {
+      await contract!.removeEntry(entry);
+
+      setEntries(entries.filter((_, index) => index !== entry));
+      notification.success({message: 'Entry removed'});
+    } catch (err: any) {
+      notification.error(err.message);
+    }
+  }
+
   useEffect(() => {
     const setupInstance = async () => {
       const signer = wallet!.getSigner();
@@ -93,7 +104,10 @@ export const LvesView = () => {
 
         {userExists && (
           <div className="App-main">
-            <LvesTimeline entries={entries} />
+            <LvesTimeline
+              entries={entries}
+              removeEntry={removeEntry}
+            />
             <LvesTextEditor
               onSubmit={handleSubmit}
               ref={ref}

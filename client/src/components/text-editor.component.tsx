@@ -28,7 +28,7 @@ const TextEditor = ({ onSubmit }: Props, ref: Ref) => {
 
 
   return (
-    <div className='lves-text-editor' style={{flexBasis: '60%'}}>
+    <div className='lves-text-editor' style={{flexBasis: '50%'}}>
       <RichTextEditor
         autoFocus
         placeholder='Add entry here'
