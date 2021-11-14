@@ -4,7 +4,7 @@ import { LvesConnectMetamask } from '../components/connect-metamask.component';
 
 import { LvesTextEditor, TextEditorApi } from '../components/text-editor.component';
 import { useLves } from '../context/lves.context';
-import { notification } from 'antd';
+import { message, notification } from 'antd';
 import { LvesAddUser } from '../components/add-user.component';
 import { LvesTimeline } from '../components/timeline.component';
 import * as lvesJson from '../contracts/Lves.sol/Lves.json';
@@ -31,9 +31,20 @@ export const LvesView = () => {
         text: entry
       };
 
-      await contract!.addEntry(entryObj.createdAt, entryObj.text);
+      const tx = await contract!.addEntry(entryObj.createdAt, entryObj.text);
 
       setEntries([...entries, entryObj]);
+      // message.loading({
+      //   content: `Mining`,
+      //   key: tx.hash,
+      //   duration: 0
+      // });
+
+      // await tx.wait();
+
+      // message.destroy(tx.hash);
+      message.loading(`Done`);
+
 
       ref.current?.clear();
     } catch (err: any) {

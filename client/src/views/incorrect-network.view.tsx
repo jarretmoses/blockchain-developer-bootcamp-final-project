@@ -5,7 +5,8 @@ interface Props {
 const getNeededChainName = (chainId: number) => (
   {
     1337: 'Localhost:8545',
-    3: 'Rinkeby'
+    3: 'Ropsten',
+    4: 'Rinkeby',
   }[chainId]
 );
 

@@ -6,10 +6,11 @@ import 'antd/dist/antd.dark.css';
 import { LvesView } from './views/lves.view';
 import { IncorrectNetworkView } from './views/incorrect-network.view';
 import { useLves } from './context/lves.context';
-
-const REQUIRED_CHAIN = Number(import.meta.env.VITE_CHAIN_ID);
+import { getRequiredChainId } from './utils/get-required-chain-id';
 
 type LoadingState = 'loading' | 'ok' | 'incorrectChain';
+
+const REQUIRED_CHAIN = getRequiredChainId();
 
 function App() {
   const {
