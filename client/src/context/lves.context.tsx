@@ -33,7 +33,10 @@ const LvesProvider = (props: Record<string, any>) => {
   const [activeAccount, setActiveAccount] = useState<string>();
   const [userExists, setUserExists] = useState(false);
   const [chainId, setChainId] = useState<number>();
-  const {current: wallet} = useRef(new ethers.providers.Web3Provider(window.ethereum, 'any'));
+  const {current: wallet} = useRef(new ethers.providers.Web3Provider(
+    window.ethereum,
+    'any'
+  ));
   const isCorrectChain = (requiredChainId: number) => {
     return chainId === requiredChainId;
   };
@@ -43,7 +46,6 @@ const LvesProvider = (props: Record<string, any>) => {
       window.location.reload();
     });
   }, []);
-
 
   return (
     <LvesContext.Provider

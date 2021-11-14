@@ -1,9 +1,11 @@
 {
-  "name": "client2",
+  "name": "lves",
   "version": "0.0.0",
   "scripts": {
     "dev": "CHAIN_ID=1337 vite",
-    "build": "tsc && CHAIN_ID=3 vite build",
+    "build:mainnet": "tsc && CHAIN_ID=1 vite build",
+    "build:ropsten": "tsc && CHAIN_ID=3 vite build",
+    "build:rinkeby": "tsc && CHAIN_ID=4 vite build",
     "serve": "vite preview"
   },
   "dependencies": {

@@ -2,7 +2,7 @@
 pragma solidity 0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 // TODO: Potentially add a balance to this wallet to pay for the creation of a user
 contract Lves is Ownable {
@@ -32,7 +32,9 @@ contract Lves is Ownable {
   function addUser() public {
     require(!users[msg.sender].isActive, "User already exists");
 
-    // This is weird since I cant instantiate an empty array o fstructs
+    console.log("Adding user %s", msg.sender);
+
+    // This is weird since I cant instantiate an empty array of structs
     users[msg.sender].isActive = true;
 
     emit LogUserAdded(msg.sender);
@@ -83,6 +85,8 @@ contract Lves is Ownable {
 
   function userExists() public view returns (bool) {
     User memory user = users[msg.sender];
+
+    console.log("user %s", msg.sender);
 
     return user.isActive;
   }

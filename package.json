@@ -9,6 +9,9 @@
     "test": "npx hardhat test",
     "install-all-deps": "npm i && cd ./client && npm i",
     "start-client": "cd client && npm run dev",
+    "build-mainnet": "cd client && npm run build:mainnet",
+    "build-ropsten": "cd client && npm run build:ropsten",
+    "build-rinkeby": "cd client && npm run build:rinkeby",
     "start-local-node": "npx hardhat node"
   },
   "dependencies": {

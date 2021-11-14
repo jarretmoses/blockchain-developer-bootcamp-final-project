@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLves } from '../context/lves.context';
 
@@ -19,11 +19,13 @@ export const LvesAddUser = () => {
 
   const handleClick = async () => {
     try {
-      await contract!.addUser();
+      const tx = await contract!.addUser();
+
+      message.success('User added');
 
       setUserExists(true);
-    } catch {
-
+    } catch(err) {
+      message.error('Issue occured');
     }
   };
 
