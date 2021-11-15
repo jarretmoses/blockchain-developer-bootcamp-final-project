@@ -114,7 +114,7 @@ export const LvesView = () => {
         <LvesAddUser />
 
         {userExists && (
-          <div className="App-main">
+          <div className='App-main'>
             <LvesTimeline
               entries={entries}
               removeEntry={removeEntry}

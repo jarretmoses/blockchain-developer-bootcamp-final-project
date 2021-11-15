@@ -5,8 +5,8 @@
   "scripts": {
     "setup-client-contracts": "cp -R ./artifacts/contracts ./client/src && cp -R ./typechain ./client/src",
     "deploy:dev": "npx hardhat run --network localhost scripts/deploy.ts && npm run setup-client-contracts",
+    "deploy:ropsten": "npx hardhat run --network ropsten scripts/deploy.ts && npm run setup-client-contracts",
     "dev": "npx hardhat run --network localhost scripts/deploy.ts",
-    "deploy:ropsten": "npx hardhat run --network ropsten scripts/deploy.ts",
     "test": "npx hardhat test",
     "install-all-deps": "npm i && cd ./client && npm i",
     "start-client": "cd client && npm run dev",
@@ -25,6 +25,7 @@
     "@types/chai": "4.2.22",
     "@types/mocha": "9.0.0",
     "@types/node": "16.10.3",
+    "@types/react-draft-wysiwyg": "^1.13.3",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "@typescript-eslint/parser": "4.33.0",
     "chai": "4.3.4",

@@ -21,10 +21,21 @@ export const LvesAddUser = () => {
     try {
       const tx = await contract!.addUser();
 
+      message.loading({
+        content: `Adding user...`,
+        key: tx.hash,
+        duration: 0
+      });
+
+      await tx.wait(1);
+
+      message.destroy(tx.hash);
+
       message.success('User added');
 
       setUserExists(true);
     } catch(err) {
+
       message.error('Issue occured');
     }
   };
@@ -40,6 +51,7 @@ export const LvesAddUser = () => {
       );
 
       const userExists = await lvesContract.userExists();
+
       if (userExists) {
         setUserExists(true);
       } else {
