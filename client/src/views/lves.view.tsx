@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Lves, Lves__factory } from '../typechain';
+import { Lves, Lves__factory } from '../typechain-types';
 import { LvesConnectMetamask } from '../components/connect-metamask.component';
 
 import { LvesTextEditor, TextEditorApi } from '../components/text-editor.component';

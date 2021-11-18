@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useLves } from '../context/lves.context';
 
 import * as lvesJson from '../contracts/Lves.sol/Lves.json';
-import { Lves, Lves__factory } from '../typechain';
+import { Lves, Lves__factory } from '../typechain-types';
 
 type Networks = 3 | 4 | 1337;
 
