@@ -31,19 +31,11 @@ export const LvesView = () => {
         text: entry
       };
 
-      const tx = await contract!.addEntry(entryObj.createdAt, entryObj.text);
+      await contract!.addEntry(entryObj.createdAt, entryObj.text);
 
       setEntries([...entries, entryObj]);
-      // message.loading({
-      //   content: `Mining`,
-      //   key: tx.hash,
-      //   duration: 0
-      // });
 
-      // await tx.wait();
-
-      // message.destroy(tx.hash);
-      message.loading(`Done`);
+      message.success(`Memory added`);
 
 
       ref.current?.clear();

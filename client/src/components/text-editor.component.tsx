@@ -9,7 +9,7 @@ import {Editor, EditorState} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 
 interface Props {
-  onSubmit(value: string): void;
+  onSubmit(value: string): Promise<void>;
 }
 
 export interface TextEditorApi {
@@ -19,6 +19,7 @@ export interface TextEditorApi {
 type Ref = ((instance: unknown) => void) | React.RefObject<unknown> | null | undefined;
 
 const TextEditor = ({ onSubmit }: Props, ref: Ref) => {
+  const [isAddingMemory, setIsAddingMemory] = useState(false);
   const [text, setText] = useState(EditorState.createEmpty());
 
 
@@ -41,10 +42,15 @@ const TextEditor = ({ onSubmit }: Props, ref: Ref) => {
         />
       </div>
       <Button
+        disabled={isAddingMemory}
         size='large'
-        onClick={() => {
+        onClick={async () => {
+          setIsAddingMemory(true);
           const textString = text.getCurrentContent().getPlainText();
-          onSubmit(textString);
+
+          await onSubmit(textString);
+
+          setIsAddingMemory(false);
         }}
       >
         Submit

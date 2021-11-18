@@ -1,4 +1,9 @@
-import { Timeline, Button, Modal } from 'antd';
+import {
+  Timeline,
+  Button,
+  Modal,
+  Tooltip
+} from 'antd';
 import {
   DeleteOutlined,
   EyeOutlined,
@@ -37,19 +42,21 @@ const EntryLabel = ({
   return (
     <span>
       {date} -&nbsp;
-      {/* {text} - <span dangerouslySetInnerHTML={{__html: text}}/> - */}
-
-      <Button
-        style={{display: 'inline-block'}}
-        type='link' icon={<EyeOutlined />}
-        onClick={() => readMemory(text)}
-      />
-      <Button
-        danger
-        style={{display: 'inline-block'}}
-        type='link' icon={<DeleteOutlined />}
-        onClick={onClick}
-      />
+      <Tooltip overlay='Read memory'>
+        <Button
+          style={{display: 'inline-block'}}
+          type='link' icon={<EyeOutlined />}
+          onClick={() => readMemory(text)}
+        />
+      </Tooltip>
+      <Tooltip overlay='Remove memory'>
+        <Button
+          danger
+          style={{display: 'inline-block'}}
+          type='link' icon={<DeleteOutlined />}
+          onClick={onClick}
+        />
+      </Tooltip>
     </span>
   )
 }

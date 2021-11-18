@@ -1,4 +1,8 @@
-import { Button, message } from 'antd';
+import {
+  Button,
+  message,
+  notification
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { useLves } from '../context/lves.context';
 
@@ -7,32 +11,35 @@ import { Lves, Lves__factory } from '../typechain';
 
 type Networks = 3 | 4 | 1337;
 
+
 export const LvesAddUser = () => {
+  const [isAddingUser, setIsAddingUser] = useState(false);
   const [contract, setContract] = useState<Lves>();
   const {
     userExists,
     setUserExists,
     wallet,
     chainId,
-    activeAccount
+    activeAccount,
   } = useLves();
 
   const handleClick = async () => {
     try {
       const tx = await contract!.addUser();
-
+      setIsAddingUser(true);
       message.loading({
         content: `Adding user...`,
         key: tx.hash,
         duration: 0
       });
 
-      await tx.wait(1);
+      await tx.wait();
 
       message.destroy(tx.hash);
 
       message.success('User added');
 
+      setIsAddingUser(false);
       setUserExists(true);
     } catch(err) {
 
@@ -64,10 +71,11 @@ export const LvesAddUser = () => {
 
   if (userExists || !contract) return null;
 
+
   return (
     <div className="lves-add-user">
       <p>Before adding entries you will need to add yourself as a user</p>
-      <Button onClick={handleClick}>Signup</Button>
+      <Button onClick={handleClick} disabled={isAddingUser}>Signup</Button>
     </div>
   )
 }
