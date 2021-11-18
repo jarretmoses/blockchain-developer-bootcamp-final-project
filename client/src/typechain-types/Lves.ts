@@ -23,6 +23,7 @@ export interface LvesInterface extends utils.Interface {
     "addUser()": FunctionFragment;
     "archiveUser()": FunctionFragment;
     "getUserEntries()": FunctionFragment;
+    "isActive()": FunctionFragment;
     "owner()": FunctionFragment;
     "removeEntry(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -44,6 +45,7 @@ export interface LvesInterface extends utils.Interface {
     functionFragment: "getUserEntries",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "isActive", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "removeEntry",
@@ -76,6 +78,7 @@ export interface LvesInterface extends utils.Interface {
     functionFragment: "getUserEntries",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "isActive", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "removeEntry",
@@ -99,6 +102,7 @@ export interface LvesInterface extends utils.Interface {
     "LogEntriesRecieved(address)": EventFragment;
     "LogEntryAdded(address,string,string)": EventFragment;
     "LogRemoveEntry(address,uint256)": EventFragment;
+    "LogToggleActive(bool)": EventFragment;
     "LogUserAdded(address)": EventFragment;
     "LogUserArchived(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
@@ -107,6 +111,7 @@ export interface LvesInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "LogEntriesRecieved"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogEntryAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogRemoveEntry"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "LogToggleActive"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogUserAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "LogUserArchived"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
@@ -133,6 +138,10 @@ export type LogRemoveEntryEvent = TypedEvent<
 >;
 
 export type LogRemoveEntryEventFilter = TypedEventFilter<LogRemoveEntryEvent>;
+
+export type LogToggleActiveEvent = TypedEvent<[boolean], { isActive: boolean }>;
+
+export type LogToggleActiveEventFilter = TypedEventFilter<LogToggleActiveEvent>;
 
 export type LogUserAddedEvent = TypedEvent<[string], { userAddress: string }>;
 
@@ -200,6 +209,8 @@ export interface Lves extends BaseContract {
       [string[], string[]] & { entries: string[]; createdAt: string[] }
     >;
 
+    isActive(overrides?: CallOverrides): Promise<[boolean]>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     removeEntry(
@@ -241,6 +252,8 @@ export interface Lves extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string[], string[]] & { entries: string[]; createdAt: string[] }>;
 
+  isActive(overrides?: CallOverrides): Promise<boolean>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   removeEntry(
@@ -279,6 +292,8 @@ export interface Lves extends BaseContract {
     ): Promise<
       [string[], string[]] & { entries: string[]; createdAt: string[] }
     >;
+
+    isActive(overrides?: CallOverrides): Promise<boolean>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -319,6 +334,9 @@ export interface Lves extends BaseContract {
     ): LogRemoveEntryEventFilter;
     LogRemoveEntry(userAddress?: null, index?: null): LogRemoveEntryEventFilter;
 
+    "LogToggleActive(bool)"(isActive?: null): LogToggleActiveEventFilter;
+    LogToggleActive(isActive?: null): LogToggleActiveEventFilter;
+
     "LogUserAdded(address)"(userAddress?: null): LogUserAddedEventFilter;
     LogUserAdded(userAddress?: null): LogUserAddedEventFilter;
 
@@ -351,6 +369,8 @@ export interface Lves extends BaseContract {
     ): Promise<BigNumber>;
 
     getUserEntries(overrides?: CallOverrides): Promise<BigNumber>;
+
+    isActive(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -391,6 +411,8 @@ export interface Lves extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getUserEntries(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    isActive(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
