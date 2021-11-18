@@ -1,11 +1,15 @@
+:root {
+  --background-color: #141414;
+}
+
 body {
-  background-color: #141414;
+  background-color: var(--background-color);
 }
 
 .App {
   text-align: center;
   /* 282c34 */
-  background-color: #141414;
+  background-color: var(--background-color);;
 }
 
 .App-main {
@@ -23,19 +27,29 @@ body {
   display: none;
 }
 
+.lves-timeline {
+  width: 30vw;
+  margin-right: 2rem;
+}
+
+.lves-timeline span {
+  display: block;
+  height: 100%;
+  position: relative;
+}
+
+.ant-timeline-item {
+  display: flex;
+}
+
 .ant-timeline .ant-timeline-item:first-of-type {
   position: relative;
   top: 1px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
-  background-color: #141414;
+  background-color: var(--background-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -43,10 +57,6 @@ body {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
@@ -60,4 +70,31 @@ body {
 
 button {
   font-size: calc(10px + 2vmin);
+}
+
+.wrapper-class {
+  min-height: 60vh;
+}
+
+.wrapper-class * {
+  height: 100%;
+}
+
+.public-DraftStyleDefault-ltr,
+.public-DraftEditor-content,
+.DraftEditor-editorContainer,
+.DraftEditor-root {
+  min-height: 60vh;
+  font-size: 16px;
+}
+
+.public-DraftEditorPlaceholder-root,
+.public-DraftEditorPlaceholder-inner {
+  /* color: black !important */
+  /* pre-wrap: black; */
+}
+
+.DraftEditor-root {
+  padding: 0.5rem 1rem;
+  border: 2px solid white;
 }

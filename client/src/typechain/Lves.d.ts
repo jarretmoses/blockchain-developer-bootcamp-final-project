@@ -28,6 +28,7 @@ interface LvesInterface extends ethers.utils.Interface {
     "owner()": FunctionFragment;
     "removeEntry(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "toggleActive()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "userExists()": FunctionFragment;
   };
@@ -52,6 +53,10 @@ interface LvesInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "toggleActive",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -80,6 +85,10 @@ interface LvesInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "toggleActive",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -206,6 +215,10 @@ export class Lves extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    toggleActive(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -243,6 +256,10 @@ export class Lves extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  toggleActive(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   transferOwnership(
     newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -272,6 +289,8 @@ export class Lves extends BaseContract {
     removeEntry(index: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    toggleActive(overrides?: CallOverrides): Promise<void>;
 
     transferOwnership(
       newOwner: string,
@@ -385,6 +404,10 @@ export class Lves extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    toggleActive(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -418,6 +441,10 @@ export class Lves extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    toggleActive(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

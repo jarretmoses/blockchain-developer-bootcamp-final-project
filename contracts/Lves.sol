@@ -2,9 +2,10 @@
 pragma solidity 0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
-// TODO: Potentially add a balance to this wallet to pay for the creation of a user
+/// @title Lves lets you journal about life’s most important events and record the inner workings of your mind
+/// @author Jarret Mosesp
 contract Lves is Ownable {
   struct Entry {
     string createdAt;
@@ -18,8 +19,15 @@ contract Lves is Ownable {
 
   mapping(address => User) private users;
 
+  bool private isActive = true;
+
   modifier isActiveUser() {
     require(users[msg.sender].isActive == true, "User must be active");
+    _;
+  }
+
+  modifier isActiveContract() {
+    require(isActive == true, "Contract is not currently active");
     _;
   }
 
@@ -29,10 +37,9 @@ contract Lves is Ownable {
   event LogEntriesRecieved(address userAddress);
   event LogRemoveEntry(address userAddress, uint index);
 
-  function addUser() public {
+  /// @notice function call to add a user to the contract's storage
+  function addUser() public isActiveContract {
     require(!users[msg.sender].isActive, "User already exists");
-
-    console.log("Adding user %s", msg.sender);
 
     // This is weird since I cant instantiate an empty array of structs
     users[msg.sender].isActive = true;
@@ -40,19 +47,27 @@ contract Lves is Ownable {
     emit LogUserAdded(msg.sender);
   }
 
-  function archiveUser() public isActiveUser {
+
+  /// @notice ALlows a user to archive themselves if they want to stop and make sure no more posts can be added in their name
+  function archiveUser() public isActiveUser isActiveContract {
     users[msg.sender].isActive = false;
 
     emit LogUserArchived(msg.sender);
   }
 
-  function addEntry(string memory createdAt, string memory text) public isActiveUser {
+  /// @notice allows a user to add a new entry
+  /// @param createdAt - the ISO String of the time in which the memory was created
+  /// @param text - the text of the memeory to be stored
+  function addEntry(string memory createdAt, string memory text) public isActiveUser isActiveContract {
     users[msg.sender].entries.push(Entry(createdAt, text));
 
     emit LogEntryAdded(msg.sender, createdAt, text);
   }
 
-  function getUserEntries() public view isActiveUser returns (
+  /// @notice returns all entries by a user
+  /// @dev We return separate arrays as you cannot return an array of structs. The order of the arrays must be consistent in order to keep the text and times they were created in sync
+  /// @return entries and createdAt - returns an array of entries and created at times
+  function getUserEntries() public view isActiveUser isActiveContract returns (
     string[] memory entries,
     string[] memory createdAt
   ) {
@@ -66,8 +81,8 @@ contract Lves is Ownable {
     }
   }
 
-  function removeEntry(uint index) public isActiveUser {
-
+  /// @notice Allows a user to remove a memory
+  function removeEntry(uint index) public isActiveUser isActiveContract {
     require(
       index >= 0 && index < users[msg.sender].entries.length,
       "Entry does not exist"
@@ -83,11 +98,16 @@ contract Lves is Ownable {
     emit LogRemoveEntry(msg.sender, index);
   }
 
+  /// @notice checks if a user exists
+  /// @return isACtive returns the boolean flag of if the user is active
   function userExists() public view returns (bool) {
     User memory user = users[msg.sender];
 
-    console.log("user %s", msg.sender);
-
     return user.isActive;
+  }
+
+  /// @notice ability for contract owner to stop the contract from being used
+  function toggleActive() public onlyOwner {
+    isActive = !isActive;
   }
 }

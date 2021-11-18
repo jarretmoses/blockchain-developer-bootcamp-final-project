@@ -4,10 +4,12 @@ import {
   forwardRef,
   useImperativeHandle
 } from 'react';
-import RichTextEditor from 'react-rte';
+
+import {Editor, EditorState} from 'draft-js';
+import 'draft-js/dist/Draft.css';
 
 interface Props {
-  onSubmit(value: string): void;
+  onSubmit(value: string): Promise<void>;
 }
 
 export interface TextEditorApi {
@@ -17,49 +19,38 @@ export interface TextEditorApi {
 type Ref = ((instance: unknown) => void) | React.RefObject<unknown> | null | undefined;
 
 const TextEditor = ({ onSubmit }: Props, ref: Ref) => {
-  const [text, setText] = useState(RichTextEditor.createEmptyValue());
+  const [isAddingMemory, setIsAddingMemory] = useState(false);
+  const [text, setText] = useState(EditorState.createEmpty());
 
 
   useImperativeHandle(ref, () => ({
     clear: () => {
-      setText(RichTextEditor.createEmptyValue());
+      setText(EditorState.createEmpty());
     },
   }));
 
 
   return (
     <div className='lves-text-editor' style={{flexBasis: '50%'}}>
-      <RichTextEditor
-        autoFocus
-        placeholder='Add entry here'
-        toolbarConfig={{
-          display: [],
-          INLINE_STYLE_BUTTONS: [],
-          BLOCK_TYPE_DROPDOWN: [],
-          BLOCK_TYPE_BUTTONS: []
-        }}
-        rootStyle={{
-          color: 'black',
-          height: '80vh',
-        }}
-        toolbarClassName='lves-text-editor__toolbar'
-        editorClassName='lves-text-editor__input'
-        value={text}
-        onChange={(value) => {
-          setText(value);
-        }}
-      />
-
+      <div className='wrapper-class'>
+        <Editor
+          editorState={text}
+          placeholder='Enter memory here...'
+          onChange={(value) => {
+            setText(value);
+          }}
+        />
+      </div>
       <Button
+        disabled={isAddingMemory}
         size='large'
-        onClick={() => {
-          const textString = text.toString('html');
-          // Remove HTML tags to make sure text is entered
-          const parsedText = textString.replace(/<[^>]*>/gi, '');
+        onClick={async () => {
+          setIsAddingMemory(true);
+          const textString = text.getCurrentContent().getPlainText();
 
-          if (parsedText) {
-            onSubmit(textString);
-          }
+          await onSubmit(textString);
+
+          setIsAddingMemory(false);
         }}
       >
         Submit
