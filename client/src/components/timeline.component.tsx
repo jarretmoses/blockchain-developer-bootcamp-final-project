@@ -41,7 +41,7 @@ const EntryLabel = ({
 
   return (
     <span>
-      {date} -&nbsp;
+      {date}:&nbsp;
       <Tooltip overlay='Read memory'>
         <Button
           style={{display: 'inline-block'}}
@@ -66,7 +66,7 @@ export const LvesTimeline = ({ entries, removeEntry }: Props) => {
   if (!entries.length) {
     return (
       <div className='lves-timeline'>
-        <p style={{fontSize: '16px', flexBasis: '50%'}}>Add your first post to see your timeline</p>
+        <p style={{fontSize: '16px', flexBasis: '50%', textAlign: 'left'}}>Add your first memory to see your timeline</p>
       </div>
     )
   };

@@ -11,7 +11,8 @@
     "install-all-deps": "npm i && cd ./client && npm i",
     "start-client": "cd client && npm run dev",
     "build-client": "cd client && npm run build",
-    "start-local-node": "npx hardhat node"
+    "start-local-node": "npx hardhat node",
+    "faucet": "npx hardhat --network localhost faucet"
   },
   "dependencies": {
     "@openzeppelin/contracts": "4.3.3"

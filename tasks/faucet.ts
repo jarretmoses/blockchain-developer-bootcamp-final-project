@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
 import { task } from 'hardhat/config';
 
-// This file is only here to make interacting with the Dapp easier,
-// feel free to ignore it if you don't need it.
-
 task('faucet', 'Sends ETH to an address')
   .addPositionalParam('receiver', 'The address that will receive them')
   .setAction(async ({ receiver }, hre) => {
