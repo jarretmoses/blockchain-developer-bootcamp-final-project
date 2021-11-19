@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Lves, Lves__factory } from '../typechain';
+import { Lves, Lves__factory } from '../typechain-types';
 import { LvesConnectMetamask } from '../components/connect-metamask.component';
 
 import { LvesTextEditor, TextEditorApi } from '../components/text-editor.component';
 import { useLves } from '../context/lves.context';
-import { message, notification } from 'antd';
+import { message } from 'antd';
 import { LvesAddUser } from '../components/add-user.component';
 import { LvesTimeline } from '../components/timeline.component';
 import * as lvesJson from '../contracts/Lves.sol/Lves.json';
@@ -31,16 +31,25 @@ export const LvesView = () => {
         text: entry
       };
 
-      await contract!.addEntry(entryObj.createdAt, entryObj.text);
+      const tx = await contract!.addEntry(entryObj.createdAt, entryObj.text);
+
+      message.loading({
+        content: `Adding memory...`,
+        key: tx.hash,
+        duration: 0
+      });
+
+      await tx.wait();
+
+      message.destroy(tx.hash);
 
       setEntries([...entries, entryObj]);
 
       message.success(`Memory added`);
 
-
       ref.current?.clear();
     } catch (err: any) {
-      notification.error(err.message);
+      message.error(err.message);
     }
   };
 
@@ -49,9 +58,9 @@ export const LvesView = () => {
       await contract!.removeEntry(entry);
 
       setEntries(entries.filter((_, index) => index !== entry));
-      notification.success({message: 'Entry removed'});
+      message.success({message: 'Entry removed'});
     } catch (err: any) {
-      notification.error(err.message);
+      message.error(err.message);
     }
   }
 

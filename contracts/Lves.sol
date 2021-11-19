@@ -19,7 +19,7 @@ contract Lves is Ownable {
 
   mapping(address => User) private users;
 
-  bool private isActive = true;
+  bool public isActive = true;
 
   modifier isActiveUser() {
     require(users[msg.sender].isActive == true, "User must be active");
@@ -36,6 +36,7 @@ contract Lves is Ownable {
   event LogEntryAdded(address userAddress, string createdAt, string text);
   event LogEntriesRecieved(address userAddress);
   event LogRemoveEntry(address userAddress, uint index);
+  event LogToggleActive(bool isActive);
 
   /// @notice function call to add a user to the contract's storage
   function addUser() public isActiveContract {
@@ -109,5 +110,7 @@ contract Lves is Ownable {
   /// @notice ability for contract owner to stop the contract from being used
   function toggleActive() public onlyOwner {
     isActive = !isActive;
+
+    emit LogToggleActive(isActive);
   }
 }
