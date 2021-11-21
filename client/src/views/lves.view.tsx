@@ -7,6 +7,7 @@ import { useLves } from '../context/lves.context';
 import { message } from 'antd';
 import { LvesAddUser } from '../components/add-user.component';
 import { LvesTimeline } from '../components/timeline.component';
+import { awaitMining } from '../utils/await-mining';
 import * as lvesJson from '../contracts/Lves.sol/Lves.json';
 import '../App.css';
 
@@ -33,19 +34,13 @@ export const LvesView = () => {
 
       const tx = await contract!.addEntry(entryObj.createdAt, entryObj.text);
 
-      message.loading({
-        content: `Adding memory...`,
-        key: tx.hash,
-        duration: 0
-      });
-
-      await tx.wait();
-
-      message.destroy(tx.hash);
+      await awaitMining({
+        tx,
+        waiting: 'Adding memory...',
+        success: 'Memory added'
+      })
 
       setEntries([...entries, entryObj]);
-
-      message.success(`Memory added`);
 
       ref.current?.clear();
     } catch (err: any) {
@@ -54,14 +49,15 @@ export const LvesView = () => {
   };
 
   const removeEntry = async (entry: number) => {
-    try {
-      await contract!.removeEntry(entry);
+    const tx = await contract!.removeEntry(entry);
 
-      setEntries(entries.filter((_, index) => index !== entry));
-      message.success({message: 'Entry removed'});
-    } catch (err: any) {
-      message.error(err.message);
-    }
+    await awaitMining({
+      tx,
+      waiting: 'Removing memory...',
+      success: 'Memory removed'
+    })
+
+    setEntries(entries.filter((_, index) => index !== entry));
   }
 
   useEffect(() => {

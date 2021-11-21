@@ -42,7 +42,7 @@ export const LvesConnectMetamask = () => {
         textAlign: 'center',
         maxWidth: '50vw'
       }}>
-        LVES uses MetaMask to pay the fee for adding your entries onto the blockchain, making them permanent.
+        LVES uses MetaMask to pay the fee for adding your memories onto the blockchain, making them permanent.
       </p>
       <Button
         style={{display: 'flex'}}

@@ -6,13 +6,15 @@
     "setup-client-contracts": "cp -R ./artifacts/contracts ./client/src && cp -R ./typechain-types ./client/src",
     "deploy:dev": "npx hardhat run --network localhost scripts/deploy.ts && npm run setup-client-contracts",
     "deploy:ropsten": "npx hardhat run --network ropsten scripts/deploy.ts && npm run setup-client-contracts",
+    "deploy:rinkeby": "npx hardhat run --network rinkeby scripts/deploy.ts && npm run setup-client-contracts",
     "dev": "npx hardhat run --network localhost scripts/deploy.ts",
     "test": "npx hardhat test",
     "install-all-deps": "npm i && cd ./client && npm i",
     "start-client": "cd client && npm run dev",
     "build-client": "cd client && npm run build",
     "start-local-node": "npx hardhat node",
-    "faucet": "npx hardhat --network localhost faucet"
+    "faucet": "npx hardhat --network localhost faucet",
+    "toc": "doctoc ./README.md"
   },
   "dependencies": {
     "@openzeppelin/contracts": "4.3.3"
@@ -31,6 +33,7 @@
     "@typescript-eslint/parser": "5.4.0",
     "chai": "4.3.4",
     "chai-as-promised": "7.1.1",
+    "doctoc": "2.1.0",
     "dotenv": "10.0.0",
     "eslint": "8.2.0",
     "eslint-config-airbnb-base": "15.0.0",

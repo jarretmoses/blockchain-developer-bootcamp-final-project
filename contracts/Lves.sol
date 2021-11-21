@@ -21,11 +21,13 @@ contract Lves is Ownable {
 
   bool public isActive = true;
 
+  /// @notice check if the user is active on the contract
   modifier isActiveUser() {
     require(users[msg.sender].isActive == true, "User must be active");
     _;
   }
 
+  /// @notice check if the contract is active to be interacted with
   modifier isActiveContract() {
     require(isActive == true, "Contract is not currently active");
     _;

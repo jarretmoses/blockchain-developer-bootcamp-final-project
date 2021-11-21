@@ -2,7 +2,8 @@ import {
   Timeline,
   Button,
   Modal,
-  Tooltip
+  Tooltip,
+  message
 } from 'antd';
 import {
   DeleteOutlined,
@@ -34,9 +35,16 @@ const EntryLabel = ({
   removeEntry,
   readMemory
 }: EntryLabelProps) => {
+  const [isRemovingEntry, setIsremovingEntry] = useState(false);
 
   const onClick = async () => {
-    await removeEntry(index);
+    try {
+      setIsremovingEntry(true);
+      await removeEntry(index);
+    } catch (err: any) {
+      message.error(err.message);
+      setIsremovingEntry(false);
+    }
   };
 
   return (
@@ -52,6 +60,7 @@ const EntryLabel = ({
       <Tooltip overlay='Remove memory'>
         <Button
           danger
+          disabled={isRemovingEntry}
           style={{display: 'inline-block'}}
           type='link' icon={<DeleteOutlined />}
           onClick={onClick}

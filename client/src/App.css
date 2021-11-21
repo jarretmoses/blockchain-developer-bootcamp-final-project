@@ -72,26 +72,12 @@ button {
   font-size: calc(10px + 2vmin);
 }
 
-.wrapper-class {
-  min-height: 60vh;
-}
-
-.wrapper-class * {
-  height: 100%;
-}
-
 .public-DraftStyleDefault-ltr,
 .public-DraftEditor-content,
 .DraftEditor-editorContainer,
 .DraftEditor-root {
   min-height: 60vh;
   font-size: 16px;
-}
-
-.public-DraftEditorPlaceholder-root,
-.public-DraftEditorPlaceholder-inner {
-  /* color: black !important */
-  /* pre-wrap: black; */
 }
 
 .DraftEditor-root {

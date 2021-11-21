@@ -1,13 +1,13 @@
 import {
   Button,
   message,
-  notification
 } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLves } from '../context/lves.context';
 
 import * as lvesJson from '../contracts/Lves.sol/Lves.json';
 import { Lves, Lves__factory } from '../typechain-types';
+import { awaitMining } from '../utils/await-mining';
 
 type Networks = 3 | 4 | 1337;
 
@@ -27,23 +27,17 @@ export const LvesAddUser = () => {
     try {
       const tx = await contract!.addUser();
       setIsAddingUser(true);
-      message.loading({
-        content: `Adding user...`,
-        key: tx.hash,
-        duration: 0
-      });
 
-      await tx.wait();
-
-      message.destroy(tx.hash);
-
-      message.success('User added');
+      await awaitMining({
+        tx,
+        waiting: 'Adding user...',
+        success: 'User added'
+      })
 
       setIsAddingUser(false);
       setUserExists(true);
-    } catch(err) {
-
-      message.error('Issue occured');
+    } catch(err: any) {
+      message.error(err.message);
     }
   };
 
@@ -74,7 +68,7 @@ export const LvesAddUser = () => {
 
   return (
     <div className="lves-add-user">
-      <p>Before adding entries you will need to add yourself as a user</p>
+      <p>Before adding memories you will need to add yourself as a user</p>
       <Button onClick={handleClick} disabled={isAddingUser}>Signup</Button>
     </div>
   )

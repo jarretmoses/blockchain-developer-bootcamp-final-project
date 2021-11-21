@@ -31,13 +31,7 @@ const config: HardhatUserConfig = {
   },
   networks: {
     hardhat: {
-      throwOnTransactionFailures: true,
-      throwOnCallFailures: true,
       chainId: 1337,
-      // mining: {
-      //   auto: false,
-      //   interval: 3000,
-      // },
     },
     ropsten: {
       url: process.env.ROPSTEN_URL || '',
